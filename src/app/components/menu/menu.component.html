@@ -1,0 +1,43 @@
+<mat-sidenav-container class="sidenav-container">
+    <!-- Menu Lateral -->
+    <mat-sidenav #sidenav mode="side" opened>
+      <mat-toolbar class="sidenav-header">Menu</mat-toolbar>
+
+      <!-- Home -->
+      <mat-list-item (click)="navigateTo('dashboard')">
+        <mat-icon>home</mat-icon>
+        <span>Home</span>
+      </mat-list-item>
+
+      <!-- Lista de Itens Dinâmicos -->
+      <mat-nav-list>
+        <mat-list-item *ngFor="let item of menuItems" (click)="navigateTo(item.route)">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </mat-list-item>
+      </mat-nav-list>
+  
+      <!-- Botão de Logout fixo no final do menu -->
+      <div class="logout-container">
+        <mat-list-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </mat-list-item>          
+      </div>
+    </mat-sidenav>
+  
+    <!-- Conteúdo Principal -->
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>Dashboard</span>
+      </mat-toolbar>
+  
+      <div class="content">
+        <ng-content></ng-content>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

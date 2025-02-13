@@ -1,0 +1,69 @@
+<app-menu>
+  <mat-card class="form-container">
+    <mat-card-title>Cadastrar Aula</mat-card-title>
+  
+    <form [formGroup]="aulaForm" (ngSubmit)="onSubmit()">
+      <!-- Título -->
+      <mat-form-field appearance="fill">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="titulo" required>
+        <mat-error *ngIf="aulaForm.get('titulo')?.invalid && aulaForm.get('titulo')?.touched">
+          O título é obrigatório.
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Link -->
+      <mat-form-field appearance="fill">
+        <mat-label>Link</mat-label>
+        <input matInput formControlName="link" required>
+        <mat-error *ngIf="aulaForm.get('link')?.invalid && aulaForm.get('link')?.touched">
+          Insira um link válido.
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Data/Hora -->
+      <mat-form-field appearance="fill">
+        <mat-label>Data e Hora</mat-label>
+        <input matInput [matDatepicker]="picker1" formControlName="dataHora" required>
+        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+  
+      <!-- Tutor -->
+      <mat-form-field appearance="fill">
+        <mat-label>Tutor</mat-label>
+        <input matInput formControlName="tutor" required>
+        <mat-error *ngIf="aulaForm.get('tutor')?.invalid && aulaForm.get('tutor')?.touched">
+            Insira um tutor.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Tutor com futuro cadastro de tutor-->
+      <!-- <mat-form-field appearance="fill">
+        <mat-label>Tutor</mat-label>
+        <mat-select formControlName="tutor" required>
+          <mat-option *ngFor="let tutor of tutors" [value]="tutor">{{ tutor }}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+  
+      <!-- Observações -->
+      <mat-form-field appearance="fill">
+        <mat-label>Observações</mat-label>
+        <textarea matInput formControlName="observacoes"></textarea>
+      </mat-form-field>
+  
+      <!-- Exibição de erro -->
+      <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+  
+      <!-- Botões -->
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+          {{ loading ? 'Salvando...' : 'Incluir' }}
+        </button>
+        <button mat-button color="warn" type="button" (click)="clearForm()">
+          Limpar
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</app-menu>

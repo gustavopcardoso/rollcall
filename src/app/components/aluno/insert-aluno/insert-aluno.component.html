@@ -1,0 +1,34 @@
+<app-menu>
+  <mat-card class="upload-card">
+    <mat-card-title class="upload-title">Upload de Planilha</mat-card-title>
+  
+    <!-- Input File Oculto -->
+    <input type="file" id="fileInput" (change)="onFileChange($event)" accept=".xlsx, .xls">
+    
+    <!-- Botão Customizado para Upload -->
+    <label for="fileInput" class="upload-label">
+      <mat-icon class="upload-icon">cloud_upload</mat-icon>
+      Selecionar Arquivo
+    </label>
+
+    <!-- Nome do Arquivo Selecionado e Botão de Remover -->
+    <div *ngIf="selectedFile" class="file-info">
+      <span>{{ selectedFile.name }}</span>
+      <button mat-icon-button color="warn" (click)="limparArquivo()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  
+    <!-- Botões -->
+    <div class="upload-button-container">
+      <button mat-raised-button color="primary" (click)="uploadFile()" [disabled]="!selectedFile">
+        Enviar Planilha
+      </button>
+    </div>
+  
+    <!-- Mensagens de Sucesso e Erro -->
+    <p *ngIf="uploadSuccess" class="upload-success">Arquivo enviado com sucesso!</p>
+    <p *ngIf="uploadError" class="upload-error">{{ uploadError }}</p>
+  </mat-card>
+     
+</app-menu>
