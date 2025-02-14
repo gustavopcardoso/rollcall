@@ -15,6 +15,7 @@ import { MenuComponent } from "../../menu/menu.component";
 
 @Component({
   selector: 'app-insert-aula',
+  standalone: true,
   imports: [
     CommonModule,
     MatCardModule,

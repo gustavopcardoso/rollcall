@@ -3,7 +3,7 @@
     <mat-card-title class="upload-title">Upload de Planilha</mat-card-title>
   
     <!-- Input File Oculto -->
-    <input type="file" id="fileInput" (change)="onFileChange($event)" accept=".xlsx, .xls">
+    <input type="file" #fileInput id="fileInput" (change)="onFileChange($event)" accept=".xlsx, .xls">
     
     <!-- Botão Customizado para Upload -->
     <label for="fileInput" class="upload-label">
@@ -14,7 +14,7 @@
     <!-- Nome do Arquivo Selecionado e Botão de Remover -->
     <div *ngIf="selectedFile" class="file-info">
       <span>{{ selectedFile.name }}</span>
-      <button mat-icon-button color="warn" (click)="limparArquivo()">
+      <button mat-icon-button color="warn" (click)="limparArquivo(fileInput)">
         <mat-icon>close</mat-icon>
       </button>
     </div>

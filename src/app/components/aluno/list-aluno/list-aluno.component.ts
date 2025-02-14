@@ -10,6 +10,7 @@ import { AlunoService } from '../../../services/aluno.service';
 
 @Component({
   selector: 'app-list-aluno',
+  standalone: true,
   imports: [
     MenuComponent,
     MatCard,

@@ -1,0 +1,28 @@
+<mat-card class="presenca-container">
+    <mat-card-title>Confirmar Presença</mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="presencaForm" (ngSubmit)="confirmarPresenca()">
+        
+        <!-- Campo de Email -->
+        <mat-form-field appearance="fill">
+            <mat-label>Informe seu e-mail</mat-label>
+            <input matInput type="email" formControlName="email" required>
+            <mat-error *ngIf="presencaForm.get('email')?.invalid && presencaForm.get('email')?.touched">
+            Insira um e-mail válido.
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Botão Acessar Aula -->
+        <button mat-raised-button color="primary" type="submit" [disabled]="presencaForm.invalid">
+            Acessar Aula
+        </button>
+        </form>
+
+        <!-- Mensagem e Link da Aula -->
+        <div *ngIf="linkAula" class="aula-info">
+        <p class="mensagem">{{ mensagem }}</p>
+        <a [href]="linkAula" target="_blank" class="aula-link">Clique aqui para acessar a aula</a>
+        </div>
+    </mat-card-content>
+</mat-card>
+  

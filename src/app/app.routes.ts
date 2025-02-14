@@ -5,6 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { InsertAlunoComponent } from './components/aluno/insert-aluno/insert-aluno.component';
 import { ListAlunoComponent } from './components/aluno/list-aluno/list-aluno.component';
 import { InsertAulaComponent } from './components/aula/insert-aula/insert-aula.component';
+import { ConfirmarPresencaComponent } from './components/presenca/confirmar-presenca/confirmar-presenca.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent},
@@ -13,5 +14,6 @@ export const routes: Routes = [
     { path: 'aluno/insert', component: InsertAlunoComponent, canActivate: [AuthGuard] },
     { path: 'aluno/list', component: ListAlunoComponent, canActivate: [AuthGuard] },
     { path: 'aula/insert', component: InsertAulaComponent, canActivate: [AuthGuard] },
+    { path: 'aula/:codigoAula', component: ConfirmarPresencaComponent },
     { path: '**', redirectTo: '' }
 ];

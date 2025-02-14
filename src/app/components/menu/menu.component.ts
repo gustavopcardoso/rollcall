@@ -8,7 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MenuService } from '../../services/menu.service';
 import { AuthService } from '../../services/auth.service';
 import { MenuItem } from '../../interfaces/menu-item';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { MatExpansionModule } from '@angular/material/expansion'; 
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -19,13 +21,15 @@ import { Router } from '@angular/router';
     MatToolbarModule,
     MatListModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule
   ],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
   menuItems: MenuItem[] = [];
+  expandedPanels: { [id: number]: boolean } = {};
 
   constructor(
     private menuService: MenuService,
@@ -34,17 +38,32 @@ export class MenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.menuService.getMenuItems().subscribe(menu => {
-      this.menuItems = menu;
+    this.menuService.getMenuItems().subscribe(menuData => {
+      this.menuItems = this.menuService.buildMenuHierarchy(menuData);
+
+      this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+        this.updateExpandedPanels();
+      });
+
+      this.updateExpandedPanels();
     });
   }
 
-  
-  
   navigateTo(route?: string): void {
     if (route) {
       this.router.navigate([route]);
     }
+  }
+
+  updateExpandedPanels() {
+    const activeRoute = this.router.url;
+    this.expandedPanels = {};
+
+    this.menuItems.forEach(menu => {
+      if (menu.children?.some(child => activeRoute.includes(child.route || ''))) {
+        this.expandedPanels[menu.id] = true;
+      }
+    });
   }
 
   logout(): void {

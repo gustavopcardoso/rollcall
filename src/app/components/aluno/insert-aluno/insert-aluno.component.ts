@@ -28,7 +28,8 @@ export class InsertAlunoComponent {
 
   onFileChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
-    if (!inputElement.files?.length) return;
+    if (!inputElement.files?.length) 
+      return;
 
     this.selectedFile = inputElement.files[0];
   }
@@ -54,9 +55,13 @@ export class InsertAlunoComponent {
     });
   }
 
-  limparArquivo() {
+  limparArquivo(fileInput?: HTMLInputElement) {
     this.selectedFile = null;
     this.uploadError = '';
     this.uploadSuccess = false;
+
+    if (fileInput) {
+      fileInput.value = '';
+    }
   }
 }
