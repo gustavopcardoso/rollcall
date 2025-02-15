@@ -63,6 +63,9 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_54C3521DD75A4A5CA121A18C6EA2CA0F }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6362319DF66341DF822067C639E9E24B }}
 
+      - name: Restart App Service
+        run: az webapp restart --name datacheck-demo --resource-group datacheck-demo
+
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
