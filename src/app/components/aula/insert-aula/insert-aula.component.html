@@ -1,3 +1,6 @@
+<div class="loading-overlay" *ngIf="this.loading">
+  <mat-progress-spinner mode="indeterminate" />
+</div>
 <app-menu>
   <mat-card class="form-container">
     <mat-card-title>Cadastrar Aula</mat-card-title>
@@ -8,7 +11,7 @@
         <mat-label>Título</mat-label>
         <input matInput formControlName="titulo" required>
         <mat-error *ngIf="aulaForm.get('titulo')?.invalid && aulaForm.get('titulo')?.touched">
-          O título é obrigatório.
+          "Título" é obrigatório.
         </mat-error>
       </mat-form-field>
   
@@ -21,20 +24,29 @@
         </mat-error>
       </mat-form-field>
   
-      <!-- Data/Hora -->
-      <mat-form-field appearance="fill">
-        <mat-label>Data e Hora</mat-label>
-        <input matInput [matDatepicker]="picker1" formControlName="dataHora" required>
-        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
-      </mat-form-field>
+      <div class="date-time-container">
+        <!-- Data/Hora -->
+        <mat-form-field appearance="fill">
+          <mat-label>Data</mat-label>
+          <input matInput [matDatepicker]="datepicker" formControlName="data" required>
+          <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+          <mat-datepicker #datepicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="time-picker">
+          <mat-label>Hora</mat-label>
+          <input matInput formControlName="dataHora" required [matTimepicker]="timepicker">
+          <mat-timepicker-toggle matSuffix [for]="timepicker"></mat-timepicker-toggle>
+          <mat-timepicker #timepicker></mat-timepicker>
+        </mat-form-field>
+      </div>
   
       <!-- Tutor -->
       <mat-form-field appearance="fill">
         <mat-label>Tutor</mat-label>
         <input matInput formControlName="tutor" required>
         <mat-error *ngIf="aulaForm.get('tutor')?.invalid && aulaForm.get('tutor')?.touched">
-            Insira um tutor.
+            "Tutor" é obrigatório
         </mat-error>
       </mat-form-field>
 
@@ -49,7 +61,7 @@
       <!-- Observações -->
       <mat-form-field appearance="fill">
         <mat-label>Observações</mat-label>
-        <textarea matInput formControlName="observacoes"></textarea>
+        <textarea matInput formControlName="observacao"></textarea>
       </mat-form-field>
   
       <!-- Exibição de erro -->
@@ -65,5 +77,13 @@
         </button>
       </div>
     </form>
+
+    <div *ngIf="linkAula" class="link-container">
+      <p class="success-message">Link da aula:</p>
+      
+      <mat-form-field appearance="fill" class="link-field">
+        <input matInput [value]="linkAula" readonly>
+      </mat-form-field>
+    </div>
   </mat-card>
 </app-menu>

@@ -1,6 +1,10 @@
+<div class="loading-overlay" *ngIf="this.loading">
+  <mat-progress-spinner mode="indeterminate" />
+</div>
 <div class="login-container">
     <mat-card class="login-card">
       <mat-card-title>Login</mat-card-title>
+      
       <mat-card-content>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
           <!-- Campo de email -->
@@ -15,17 +19,16 @@
           <!-- Campo de senha -->
           <mat-form-field appearance="fill">
             <mat-label>Senha</mat-label>
-            <input matInput placeholder="Senha" type="password" formControlName="password" required>
-            
+            <input matInput placeholder="Senha" type="password" formControlName="password" required>            
           </mat-form-field>
   
           <!-- Botão de login -->
           <button type="submit" mat-raised-button color="primary" class="login-button" [disabled]="loginForm.invalid">
             Entrar
           </button>
-  
+ 
         </form>
-      </mat-card-content>
+      </mat-card-content>    
   
       <!-- Mensagem de status do login -->
       <mat-card-actions>

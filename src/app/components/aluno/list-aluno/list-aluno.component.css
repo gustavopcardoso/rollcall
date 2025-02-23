@@ -1,29 +1,8 @@
-.alunos-container {
-    max-width: 800px;
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-right: auto;
+  .alunos-container {
+    margin: 20px;
     padding: 20px;
   }
-  
-  mat-table {
-    width: 100%;
+
+  .mat-column-editar {
+    flex: 0 0 10%;
   }
-  
-  mat-header-cell, mat-cell {
-    padding: 10px;
-  }
-  
-  mat-header-cell {
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  mat-cell {
-    text-align: center;
-  }
-  
-  mat-icon {
-    cursor: pointer;
-  }
-  

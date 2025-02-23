@@ -7,6 +7,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Aluno } from '../../../interfaces/aluno';
 import { MatSort } from '@angular/material/sort';
 import { AlunoService } from '../../../services/aluno.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { EditAlunoComponent } from '../edit-aluno/edit-aluno.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-aluno',
@@ -18,15 +24,30 @@ import { AlunoService } from '../../../services/aluno.service';
     MatTableModule,
     MatIcon,
     MatPaginator,
+    MatFormFieldModule,
+    FormsModule,
+    CommonModule,
+    MatInputModule
   ],
   templateUrl: './list-aluno.component.html',
   styleUrl: './list-aluno.component.css'
 })
 export class ListAlunoComponent implements OnInit {
-  displayedColumns: string[] = ['nome', 'ativo', 'editar', 'toggleAtivo'];
+  displayedColumns: string[] = [
+    'nome', 
+    'email',
+    'empresa',
+    'finalContrato',
+    'produto',
+    'ativo', 
+    'editar'
+  ];
   dataSource = new MatTableDataSource<Aluno>();
 
-  constructor(private alunoService: AlunoService) {}
+  constructor(
+    private alunoService: AlunoService, 
+    private router: Router) 
+  {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -46,12 +67,13 @@ export class ListAlunoComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  editAluno(aluno: Aluno) {
-    console.log('Editar aluno:', aluno);
+  saveAluno(aluno: Aluno) {
+    this.alunoService.saveAluno(aluno).subscribe(() => {
+      this.getAlunos();
+    });
   }
 
-  toggleAtivo(aluno: Aluno) {
-    aluno.ativo = !aluno.ativo;
-    console.log('Aluno atualizado:', aluno);
+  editAluno(aluno: Aluno) {
+    this.router.navigate(['/aluno/edit/', aluno.id]);
   }
 }

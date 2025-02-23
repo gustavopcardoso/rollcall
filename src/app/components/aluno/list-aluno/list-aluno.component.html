@@ -1,13 +1,37 @@
 <app-menu>
     <mat-card class="alunos-container">
-        <mat-card-title>Lista de Alunos</mat-card-title>
+        <mat-card-title>Lista de Alunos</mat-card-title>        
         
-        <mat-table #table [dataSource]="dataSource" matSort>
+        <mat-table [dataSource]="dataSource" matSort>
           
           <!-- Nome -->
           <ng-container matColumnDef="nome">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
             <mat-cell *matCellDef="let aluno"> {{ aluno.nome }} </mat-cell>
+          </ng-container>
+
+          <!-- Email -->
+          <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+            <mat-cell *matCellDef="let aluno"> {{ aluno.email }} </mat-cell>
+          </ng-container>
+
+          <!-- Empresa -->
+          <ng-container matColumnDef="empresa">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Empresa </mat-header-cell>
+            <mat-cell *matCellDef="let aluno"> {{ aluno.empresa }} </mat-cell>
+          </ng-container>
+
+          <!-- Final Contrato -->
+          <ng-container matColumnDef="finalContrato">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Final Contrato </mat-header-cell>
+            <mat-cell *matCellDef="let aluno"> {{ aluno.finalContrato | date: 'dd/MM/yyyy' }} </mat-cell>
+          </ng-container>
+
+          <!-- Produto -->
+          <ng-container matColumnDef="produto">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
+            <mat-cell *matCellDef="let aluno"> {{ aluno.produto }} </mat-cell>
           </ng-container>
       
           <!-- Ativo -->
@@ -20,23 +44,13 @@
       
           <!-- Botão Editar -->
           <ng-container matColumnDef="editar">
-            <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
-            <mat-cell *matCellDef="let aluno">
+            <mat-header-cell *matHeaderCellDef class="mat-column-editar"> Editar </mat-header-cell>
+            <mat-cell *matCellDef="let aluno" class="mat-column-editar">
               <button mat-icon-button color="primary" (click)="editAluno(aluno)">
                 <mat-icon>edit</mat-icon>
               </button>
             </mat-cell>
-          </ng-container>
-      
-          <!-- Botão Ativar/Inativar -->
-          <ng-container matColumnDef="toggleAtivo">
-            <mat-header-cell *matHeaderCellDef> Ativar/Inativar </mat-header-cell>
-            <mat-cell *matCellDef="let aluno">
-              <button mat-icon-button (click)="toggleAtivo(aluno)">
-                <mat-icon [color]="aluno.ativo ? 'warn' : 'accent'">{{ aluno.ativo ? 'block' : 'check_circle' }}</mat-icon>
-              </button>
-            </mat-cell>
-          </ng-container>
+          </ng-container>      
       
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

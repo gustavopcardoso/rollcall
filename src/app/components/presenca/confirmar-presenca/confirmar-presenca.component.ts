@@ -55,11 +55,8 @@ export class ConfirmarPresencaComponent implements OnInit {
     this.presencaService.confirmarPresenca(email, this.codigoAula).subscribe({
       next: (res) => {
         window.location.href = res.link;
-        /*this.linkAula = res.link;
-        this.mensagem = 'Boa Aula!';
-        this.snackBar.open('Presença confirmada!', 'Fechar', { duration: 3000 });*/
       },
-      error: () => {
+      error: (err) => {
         this.snackBar.open('Erro ao confirmar presença.', 'Fechar', { duration: 3000 });
       }
     });

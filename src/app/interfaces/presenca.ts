@@ -1,3 +1,9 @@
+import { Aluno } from "./aluno";
+
 export interface Presenca {
-    link: string;
+    nomeAluno?: string;
+    emailAluno: string;
+    empresa?: string;
+    confirmadoEm: string;
+    aluno?: Aluno;
 }

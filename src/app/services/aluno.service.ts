@@ -8,20 +8,19 @@ import { Aluno } from '../interfaces/aluno';
   providedIn: 'root'
 })
 export class AlunoService {
-  private apiUrl = environment.apiUrl + 'aluno/list';
+  private apiUrl = environment.apiUrl + '/api/Aluno';
 
   constructor(private http: HttpClient) {}
 
   getAlunos(): Observable<Aluno[]> {
-    
-    return of([
-      { id: 1, nome: 'João Silva', ativo: true },
-      { id: 2, nome: 'Maria Souza', ativo: false },
-      { id: 3, nome: 'Carlos Mendes', ativo: true },
-      { id: 4, nome: 'Ana Lima', ativo: false },
-      { id: 4, nome: 'Botelho Pinto', ativo: true }
-    ]);
+    return this.http.get<Aluno[]>(this.apiUrl + '/list');
+  }
 
-    // return this.http.get<Aluno[]>(this.apiUrl);
+  getAluno(id: number): Observable<Aluno> {
+    return this.http.get<Aluno>(this.apiUrl + '/' + id);
+  }
+
+  saveAluno(aluno: Aluno): Observable<Aluno> {
+    return this.http.post<Aluno>(this.apiUrl + '/edit', aluno);
   }
 }

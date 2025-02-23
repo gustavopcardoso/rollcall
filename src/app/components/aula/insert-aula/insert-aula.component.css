@@ -1,9 +1,29 @@
-.form-container {
+  .form-container {
     max-width: 500px;
     margin-top: 20px;
     margin-left: 20px;
     margin-right: auto;
     padding: 20px;
+  }
+
+  .date-time-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .date-picker, .time-picker {
+    width: 48%;
+  }
+
+  @media (max-width: 500px) {
+    .date-time-container {
+      flex-direction: column;
+    }
+  
+    .date-picker, .time-picker {
+      width: 100%;
+    }
   }
   
   mat-form-field {
@@ -22,3 +42,14 @@
     font-size: 14px;
   }
   
+  .link-container {
+    margin-top: 20px;
+    text-align: center;
+    padding: 10px;
+    background-color: #e8f5e9;
+    border-radius: 5px;
+  }
+
+  .link-field {
+    width: 100%;
+  }

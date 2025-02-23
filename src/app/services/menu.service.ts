@@ -8,7 +8,7 @@ import { MenuItem } from '../interfaces/menu-item';
   providedIn: 'root'
 })
 export class MenuService {
-  private apiUrl = environment.apiUrl + 'menu'; // 🔹 URL da API que retorna os menus
+  private apiUrl = environment.apiUrl + 'menu';
 
   constructor(private http: HttpClient) {}
 
@@ -18,10 +18,11 @@ export class MenuService {
       { id: 1, idMenuPai: null, label: 'Alunos', icon: 'face', route: '' },
       { id: 2, idMenuPai: 1, label: 'Gerenciar Alunos', icon: 'list', route: '/aluno/list' },
       { id: 3, idMenuPai: 1, label: 'Importar Alunos', icon: 'open_in_new', route: '/aluno/insert' },
-      { id: 4, idMenuPai: null, label: 'Aula', icon: 'assignment', route: '/aluno/list' },
-      { id: 5, idMenuPai: 4, label: 'Nova Aula', icon: 'open_in_new', route: '/aula/insert' },
-      { id: 6, idMenuPai: null, label: 'Relatorios', icon: 'assessment', route: '/aula/insert' },
-      { id: 7, idMenuPai: 6, label: 'Presenças', icon: 'supervised_user_circle', route: '/aula/insert' },
+      { id: 4, idMenuPai: null, label: 'Aulas', icon: 'assignment', route: '' },
+      { id: 5, idMenuPai: 4, label: 'Aulas Criadas', icon: 'list', route: '/aula/list' },
+      { id: 6, idMenuPai: 4, label: 'Nova Aula', icon: 'open_in_new', route: '/aula/insert' },
+      { id: 7, idMenuPai: null, label: 'Relatorios', icon: 'assessment', route: '' },
+      { id: 8, idMenuPai: 7, label: 'Presenças', icon: 'supervised_user_circle', route: '/presenca/list' },
     ];
 
     return of(userMenu);

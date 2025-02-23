@@ -11,7 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AulaService } from '../../../services/aula.service';
 import { MenuComponent } from "../../menu/menu.component";
-
+import { MatTimepickerModule } from '@angular/material/timepicker';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-insert-aula',
@@ -27,7 +28,9 @@ import { MenuComponent } from "../../menu/menu.component";
     MatButtonModule,
     MatSnackBarModule,
     ReactiveFormsModule,
-    MenuComponent
+    MenuComponent,
+    MatTimepickerModule,
+    MatProgressSpinnerModule
 ],
   templateUrl: './insert-aula.component.html',
   styleUrl: './insert-aula.component.css'
@@ -36,6 +39,7 @@ export class InsertAulaComponent {
   aulaForm: FormGroup;
   loading = false;
   errorMessage: string = '';
+  linkAula: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -45,10 +49,10 @@ export class InsertAulaComponent {
     this.aulaForm = this.fb.group({
       titulo: ['', Validators.required],
       link: ['', [Validators.required, Validators.pattern(/https?:\/\/.*/)]],
+      data: ['', Validators.required],
       dataHora: ['', Validators.required],
       tutor: ['', Validators.required],
-      observacoes: [''],
-      dataHoraEnvio: ['', Validators.required]
+      observacao: ['']
     });
   }
 
@@ -61,7 +65,8 @@ export class InsertAulaComponent {
     this.errorMessage = '';
 
     this.aulaService.insertAula(this.aulaForm.value).subscribe({
-      next: () => {
+      next: (res) => {
+        this.linkAula = res.linkAula;
         this.snackBar.open('Aula cadastrada com sucesso!', 'Fechar', { duration: 3000 });
         this.aulaForm.reset();
       },
@@ -78,5 +83,4 @@ export class InsertAulaComponent {
     this.aulaForm.reset();
     this.errorMessage = '';
   }
-
 }

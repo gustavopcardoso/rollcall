@@ -1,7 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
     <!-- Menu Lateral -->
     <mat-sidenav #sidenav mode="side" opened>
-      <mat-toolbar class="sidenav-header">NOME_DO_CLIENTE</mat-toolbar>
+      <mat-toolbar class="sidenav-header">Bem vindo, {{ tenantName }}</mat-toolbar>
 
       <!-- Home -->
       <mat-list-item (click)="navigateTo('dashboard')">
@@ -43,12 +43,11 @@
   
     <!-- Conteúdo Principal -->
     <mat-sidenav-content>
-      <!-- <mat-toolbar color="primary">
+      <mat-toolbar color="primary">
         <button mat-icon-button (click)="sidenav.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
-        <span>Dashboard</span>
-      </mat-toolbar> -->
+      </mat-toolbar>
   
       <div class="content">
         <ng-content></ng-content>

@@ -5,6 +5,7 @@ import { MatCard, MatCardTitle } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-insert-aluno',
@@ -14,7 +15,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatCard,
     MatCardTitle,
     MatIcon,
-    CommonModule
+    CommonModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './insert-aluno.component.html',
   styleUrls: ['./insert-aluno.component.css']
@@ -23,6 +25,7 @@ export class InsertAlunoComponent {
   selectedFile!: File | null;
   uploadSuccess = false;
   uploadError = '';
+  loading = false;
 
   constructor(private fileUploadService: FileUploadService, private snackBar: MatSnackBar) {}
 
@@ -40,17 +43,21 @@ export class InsertAlunoComponent {
       return;
     }
 
+    this.loading = true;
     this.uploadSuccess = false;
     this.uploadError = '';
 
     this.fileUploadService.uploadFile(this.selectedFile).subscribe({
-      next: () => {
+      next: () => {        
         this.uploadSuccess = true;
         this.snackBar.open('Arquivo enviado com sucesso!', 'Fechar', { duration: 3000 });
-        this.selectedFile = null;
+        this.selectedFile = null;        ;
       },
-      error: (err) => {
+      error: (err) => {        
         this.uploadError = err.error?.message || 'Erro ao enviar arquivo';
+      },
+      complete: () => {
+        this.loading = false;
       }
     });
   }

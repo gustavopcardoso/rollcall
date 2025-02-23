@@ -1,1 +1,67 @@
-<p>edit-aula works!</p>
+<div class="loading-overlay" *ngIf="this.loading">
+    <mat-progress-spinner mode="indeterminate" />
+</div>
+<app-menu>
+    <mat-card class="form-container">
+        <mat-card-title>Editar Aula</mat-card-title>
+
+        <form [formGroup]="aulaForm" (ngSubmit)="onSubmit()">
+
+            <mat-form-field appearance="fill">
+                <mat-label>Titulo</mat-label>
+                <input matInput formControlName="titulo" required>
+                <mat-error *ngIf="aulaForm.get('titulo')?.invalid && aulaForm.get('titulo')?.touched">
+                    "Titulo" é obrigatório.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Link</mat-label>
+                <input matInput formControlName="link" required>
+                <mat-error *ngIf="aulaForm.get('link')?.invalid && aulaForm.get('link')?.touched">
+                    "Link" é obrigatório.
+                </mat-error>
+            </mat-form-field>
+
+            <div class="date-time-container">
+                <!-- Data/Hora -->
+                <mat-form-field appearance="fill">
+                  <mat-label>Data</mat-label>
+                  <input matInput [matDatepicker]="datepicker" formControlName="data" required>
+                  <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                  <mat-datepicker #datepicker></mat-datepicker>
+                </mat-form-field>
+        
+                <mat-form-field appearance="fill" class="time-picker">
+                  <mat-label>Hora</mat-label>
+                  <input matInput formControlName="dataHora" required [matTimepicker]="timepicker">
+                  <mat-timepicker-toggle matSuffix [for]="timepicker"></mat-timepicker-toggle>
+                  <mat-timepicker #timepicker></mat-timepicker>
+                </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Tutor</mat-label>
+                <input matInput formControlName="tutor" required>
+                <mat-error *ngIf="aulaForm.get('tutor')?.invalid && aulaForm.get('tutor')?.touched">
+                    "Tutor" é obrigatório.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Observação</mat-label>
+                <input matInput formControlName="observacao">
+            </mat-form-field>
+
+            <div class="button-container">
+                <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+                    {{ loading ? 'Salvando...' : 'Salvar' }}
+                </button>
+                <button mat-button color="warn" type="button" (click)="onCancel()">
+                    Cancelar
+                </button>
+            </div>
+
+        </form>
+    </mat-card>
+</app-menu>

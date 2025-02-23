@@ -2,3 +2,76 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+  .mat-progress-spinner.spin-on-instance {
+    vertical-align: middle;
+    display: inline-block;
+    margin: 3px;
+  }
+
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  mat-progress-spinner {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  mat-table {
+    width: 100%;
+  }
+
+  mat-header-cell {
+    font-weight: bold;
+  }
+  
+  mat-icon {
+    cursor: pointer;
+  }
+
+  mat-header-cell, mat-cell {
+    padding: 10px;
+  } 
+
+  .form-container {
+    max-width: 500px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: auto;
+    padding: 20px;
+  }
+
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-height: 100px;
+  }
+  
+  .popup-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  

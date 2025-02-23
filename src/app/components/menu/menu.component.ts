@@ -30,6 +30,7 @@ import { filter } from 'rxjs';
 export class MenuComponent implements OnInit {
   menuItems: MenuItem[] = [];
   expandedPanels: { [id: number]: boolean } = {};
+  tenantName: string = '';
 
   constructor(
     private menuService: MenuService,
@@ -47,6 +48,8 @@ export class MenuComponent implements OnInit {
 
       this.updateExpandedPanels();
     });
+
+    this.tenantName = sessionStorage.getItem('tenantName') || '';
   }
 
   navigateTo(route?: string): void {

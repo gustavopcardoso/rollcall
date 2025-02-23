@@ -1,8 +1,10 @@
 export interface Aula {
+    id: number;
     titulo: string;
     link: string;
+    linkAula: string;
     dataHora: string;
     tutor: string;
-    observacoes?: string;
-    dataHoraEnvio: string;
+    abservacao?: string;
+    dataHoraEnvio: string;        
   }

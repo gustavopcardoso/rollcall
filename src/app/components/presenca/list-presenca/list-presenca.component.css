@@ -1,0 +1,24 @@
+.container {
+    padding: 20px;
+  }
+  
+  .aula-card {
+    margin-bottom: 20px;
+    padding: 15px;
+  }
+  
+  table {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  h3 {
+    margin-top: 15px;
+  }
+  
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  

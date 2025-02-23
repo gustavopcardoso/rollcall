@@ -1,0 +1,63 @@
+<div class="loading-overlay" *ngIf="this.loading">
+    <mat-progress-spinner mode="indeterminate" />
+</div>
+<app-menu>
+    <div class="container">      
+        <div *ngFor="let aula of aulas">            
+            <mat-card class="aula-card">
+              <mat-card-title>
+                <h4>Aula - {{ aula.titulo }} - {{ aula.dataHora | date:'dd/MM/yyyy HH:mm' }} - Tutor: {{ aula.tutor }}</h4>
+              </mat-card-title>                      
+              
+              <div *ngIf="aula.alunosRegistrados.data.length > 0; else semAlunosRegistrados">
+                <h4>Alunos Registrados</h4>
+                <table mat-table [dataSource]="aula.alunosRegistrados" class="mat-elevation-z8">
+                  <ng-container matColumnDef="nome">
+                    <th mat-header-cell *matHeaderCellDef> Nome </th>
+                    <td mat-cell *matCellDef="let aluno"> {{ aluno.nomeAluno }} </td>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef> Email </th>
+                    <td mat-cell *matCellDef="let aluno"> {{ aluno.email }} </td>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="empresa">
+                    <th mat-header-cell *matHeaderCellDef> Empresa </th>
+                    <td mat-cell *matCellDef="let aluno"> {{ aluno.empresa }} </td>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="confirmadoEm">
+                    <th mat-header-cell *matHeaderCellDef> Confirmado Em </th>
+                    <td mat-cell *matCellDef="let aluno"> {{ aluno.confirmadoEm | date:'dd/MM/yyyy HH:mm' }} </td>
+                  </ng-container>
+        
+                  <tr mat-header-row *matHeaderRowDef="['nome', 'email', 'empresa', 'confirmadoEm']"></tr>
+                  <tr mat-row *matRowDef="let row; columns: ['nome', 'email', 'empresa', 'confirmadoEm']"></tr>
+                </table>
+              </div>
+              <ng-template #semAlunosRegistrados><h4>Sem alunos registrados</h4></ng-template>
+                      
+              <div *ngIf="aula.alunosNaoRegistrados.data.length > 0; else semAlunosNaoRegistrados">
+                <h4>Alunos Não Registrados</h4>
+                <table mat-table [dataSource]="aula.alunosNaoRegistrados" class="mat-elevation-z8">
+                  <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef> Email </th>
+                    <td mat-cell *matCellDef="let aluno"> {{ aluno.email }} </td>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="confirmadoEm">
+                    <th mat-header-cell *matHeaderCellDef> Confirmado Em </th>
+                    <td mat-cell *matCellDef="let aluno"> {{ aluno.confirmadoEm | date:'dd/MM/yyyy HH:mm' }} </td>
+                  </ng-container>
+        
+                  <tr mat-header-row *matHeaderRowDef="['email', 'confirmadoEm']"></tr>
+                  <tr mat-row *matRowDef="let row; columns: ['email', 'confirmadoEm']"></tr>
+                </table>
+              </div>
+              <ng-template #semAlunosNaoRegistrados><h4>Sem alunos não registrados</h4></ng-template>
+            </mat-card>
+          </div>
+      </div>
+      
+</app-menu>

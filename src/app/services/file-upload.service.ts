@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class FileUploadService {
-  private apiUrl = environment.apiUrl + 'aluno/insert';
+  private apiUrl = environment.apiUrl + '/api/Aluno';
 
   constructor(private http: HttpClient) {}
 
