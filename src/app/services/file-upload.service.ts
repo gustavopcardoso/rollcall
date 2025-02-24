@@ -9,7 +9,7 @@ import { Workbook } from 'exceljs';
   providedIn: 'root'
 })
 export class FileUploadService {
-  private apiUrl = environment.apiUrl + '/api/Aluno/insert';
+  private apiUrl = environment.apiUrl + '/api/Aluno';
 
   constructor(private http: HttpClient) {}
 
@@ -17,7 +17,7 @@ export class FileUploadService {
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.http.post(this.apiUrl, formData).pipe(
+    return this.http.post(this.apiUrl + '/insert', formData).pipe(
       catchError(this.handleError)
     );
   }

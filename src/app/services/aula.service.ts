@@ -14,7 +14,7 @@ export class AulaService {
   constructor(private http: HttpClient) {}
 
   insertAula(aula: Aula): Observable<any> {
-    return this.http.post<any>(this.apiUrl, aula).pipe(
+    return this.http.post<any>(this.apiUrl + '/insert', aula).pipe(
       catchError(error => {
         console.error('Erro ao cadastrar aula:', error);
         return throwError(() => new Error(error));
