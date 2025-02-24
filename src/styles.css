@@ -43,8 +43,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 10px;
   } 
 
-  .form-container {
-    max-width: 500px;
+  .form-container {    
     margin-top: 20px;
     margin-left: 20px;
     margin-right: auto;
@@ -75,3 +74,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin-top: 20px;
   }
   
+  .date-time-container {
+    max-width: 400px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .date-picker, .time-picker {
+    width: 48%;
+  }
+
+  @media (max-width: 500px) {
+    .date-time-container {
+      flex-direction: column;
+    }
+  
+    .date-picker, .time-picker {
+      width: 100%;
+    }
+  }

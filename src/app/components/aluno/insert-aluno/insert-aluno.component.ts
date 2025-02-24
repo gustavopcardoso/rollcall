@@ -71,4 +71,8 @@ export class InsertAlunoComponent {
       fileInput.value = '';
     }
   }
+
+  async downloadFileModel() {
+    await this.fileUploadService.downloadFileModel();
+  }
 }

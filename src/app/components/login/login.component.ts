@@ -53,6 +53,7 @@ export class LoginComponent {
         },
         error: () => {          
           this.loginMessage = 'Erro ao efetuar login. Verifique suas credenciais!';
+          this.loading = false;
         },
         complete: () => {
           this.loading = false;
