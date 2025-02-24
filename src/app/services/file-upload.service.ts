@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
-import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
+import { Workbook } from 'exceljs';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class FileUploadService {
   }
 
   async downloadFileModel() {
-    const workbook = new ExcelJS.Workbook();
+    const workbook = new Workbook();
     const worksheet = workbook.addWorksheet('alunos');
 
     worksheet.columns = [

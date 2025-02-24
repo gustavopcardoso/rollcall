@@ -47,8 +47,10 @@ export class LoginComponent {
       ).subscribe({
         next: (response) => {
           this.loginSuccess = true;
-          sessionStorage.setItem('authToken', response.token);
-          sessionStorage.setItem('tenantName', response.tenant.nome);
+          if (typeof window !== 'undefined' && sessionStorage) {
+            sessionStorage.setItem('authToken', response.token);
+            sessionStorage.setItem('tenantName', response.tenant.nome);
+          }
           this.router.navigate(['/dashboard']);
         },
         error: () => {          

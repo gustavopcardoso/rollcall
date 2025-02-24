@@ -28,11 +28,18 @@ export class AuthService {
   }
 
   logout() {
-    sessionStorage.removeItem('authToken');
+    if (typeof window !== 'undefined' && sessionStorage) {
+      sessionStorage.removeItem('authToken');
+    }
   }
 
   getToken(): string | null {
-    return sessionStorage.getItem('authToken');
+    if (typeof window !== 'undefined' && sessionStorage) {
+      return sessionStorage.getItem('authToken');
+    }
+    else {
+      return null;
+    }
   }
 
   isLoggedIn(): boolean {

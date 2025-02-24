@@ -3,94 +3,94 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-  .mat-progress-spinner.spin-on-instance {
-    vertical-align: middle;
-    display: inline-block;
-    margin: 3px;
-  }
+.mat-progress-spinner.spin-on-instance {
+  vertical-align: middle;
+  display: inline-block;
+  margin: 3px;
+}
 
-  .loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
-  mat-progress-spinner {
-    width: 80px !important;
-    height: 80px !important;
-  }
+mat-progress-spinner {
+  width: 80px !important;
+  height: 80px !important;
+}
 
-  mat-table {
-    width: 100%;
-  }
+mat-table {
+  width: 100%;
+}
 
-  mat-header-cell {
-    font-weight: bold;
-  }
-  
-  mat-icon {
-    cursor: pointer;
-  }
+mat-header-cell {
+  font-weight: bold;
+}
 
-  mat-header-cell, mat-cell {
-    padding: 10px;
-  } 
+mat-icon {
+  cursor: pointer;
+}
 
-  .form-container {    
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-right: auto;
-    padding: 20px;
-  }
+mat-header-cell, mat-cell {
+  padding: 10px;
+} 
 
-  .loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    min-height: 100px;
-  }
-  
-  .popup-container {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  mat-form-field {
-    width: 100%;
-    margin-bottom: 15px;
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
+.form-container {    
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: auto;
+  padding: 20px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  min-height: 100px;
+}
+
+.popup-container {
+  text-align: center;
+  padding: 20px;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.date-time-container {
+  max-width: 400px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.date-picker, .time-picker {
+  width: 48%;
+}
+
+@media (max-width: 500px) {
   .date-time-container {
-    max-width: 400px;
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
+    flex-direction: column;
   }
 
   .date-picker, .time-picker {
-    width: 48%;
+    width: 100%;
   }
-
-  @media (max-width: 500px) {
-    .date-time-container {
-      flex-direction: column;
-    }
-  
-    .date-picker, .time-picker {
-      width: 100%;
-    }
-  }
+}

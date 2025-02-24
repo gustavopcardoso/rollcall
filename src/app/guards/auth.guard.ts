@@ -5,11 +5,15 @@ import { CanActivate, Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
+  isAuthenticated: boolean = false;
+
   constructor(private router: Router) {}
 
-  canActivate(): boolean {
-    const isAuthenticated = !!sessionStorage.getItem('authToken');  // atenção aqui
-    if (!isAuthenticated) {
+  canActivate(): boolean {    
+    if (typeof window !== 'undefined' && sessionStorage) {
+      this.isAuthenticated = !!sessionStorage.getItem('authToken');  // atenção aqui
+    }
+    if (!this.isAuthenticated) {
       this.router.navigate(['/login']);
       return false;
     }

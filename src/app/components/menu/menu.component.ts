@@ -49,7 +49,9 @@ export class MenuComponent implements OnInit {
       this.updateExpandedPanels();
     });
 
-    this.tenantName = sessionStorage.getItem('tenantName') || '';
+    if (typeof window !== 'undefined' && sessionStorage) {
+      this.tenantName = sessionStorage.getItem('tenantName') || '';
+    }
   }
 
   navigateTo(route?: string): void {
