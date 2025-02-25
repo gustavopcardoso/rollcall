@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PresencaService } from '../../../services/presenca.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-confirmar-presenca',
@@ -19,12 +20,14 @@ import { ActivatedRoute } from '@angular/router';
     MatInputModule,
     MatButtonModule,
     MatSnackBarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './confirmar-presenca.component.html',
   styleUrls: ['./confirmar-presenca.component.css']
 })
 export class ConfirmarPresencaComponent implements OnInit {
+  loading = false;
   presencaForm: FormGroup;
   linkAula: string | null = null;
   mensagem: string = '';
@@ -51,6 +54,7 @@ export class ConfirmarPresencaComponent implements OnInit {
     }
 
     const email = this.presencaForm.value.email;
+    this.loading = true;
 
     this.presencaService.confirmarPresenca(email, this.codigoAula).subscribe({
       next: (res) => {
@@ -58,6 +62,9 @@ export class ConfirmarPresencaComponent implements OnInit {
       },
       error: (err) => {
         this.snackBar.open('Erro ao confirmar presença.', 'Fechar', { duration: 3000 });
+      },
+      complete: () => {
+        this.loading = false;
       }
     });
   }
