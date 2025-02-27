@@ -1,40 +1,90 @@
 <div class="loading-overlay" *ngIf="this.loading">
   <mat-progress-spinner mode="indeterminate" />
 </div>
-<app-menu>
-  <mat-card class="upload-card">
-    <mat-card-title class="upload-title">Upload de Planilha</mat-card-title>
-  
-    <!-- Input File Oculto -->
-    <input type="file" #fileInput id="fileInput" (change)="onFileChange($event)" accept=".xlsx, .xls">
-    
-    <!-- Botão Customizado para Upload -->
-    <label for="fileInput" class="upload-label">
-      <mat-icon class="upload-icon">cloud_upload</mat-icon>
-      Selecionar Arquivo
-    </label>
+<app-menu>    
+  <mat-card class="form-container">
+    <mat-card-content>
+      <div class="card-title">
+        <mat-card-title>Cadastrar Aluno</mat-card-title>
+      </div>
+      <form [formGroup]="alunoForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="nome" required>
+            <mat-error *ngIf="alunoForm.get('nome')?.invalid && alunoForm.get('nome')?.touched">
+              "Nome" é obrigatório.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" required>
+            <mat-error *ngIf="alunoForm.get('email')?.invalid && alunoForm.get('email')?.touched">
+              "Email" é obrigatório.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Empresa</mat-label>
+            <input matInput formControlName="empresa" required>
+            <mat-error *ngIf="alunoForm.get('empresa')?.invalid && alunoForm.get('empresa')?.touched">
+              "Empresa" é obrigatório.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Código Acesso</mat-label>
+            <input matInput formControlName="codigo">            
+          </mat-form-field>
+          <div class="date-time-container">
+            <mat-form-field appearance="fill">
+              <mat-label>Final Contrato</mat-label>
+              <input matInput [matDatepicker]="datepicker" formControlName="finalContrato" required>
+              <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+              <mat-datepicker #datepicker></mat-datepicker>
+              <mat-error *ngIf="alunoForm.get('empresa')?.invalid && alunoForm.get('empresa')?.touched">
+                "Final Contrato" é obrigatório.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Produto</mat-label>
+            <input matInput formControlName="produto" required>
+            <mat-error *ngIf="alunoForm.get('produto')?.invalid && alunoForm.get('produto')?.touched">
+              "Produto" é obrigatório.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>CS Reponsavel</mat-label>
+            <input matInput formControlName="csResponsavel" required>
+            <mat-error *ngIf="alunoForm.get('csResponsavel')?.invalid && alunoForm.get('csResponsavel')?.touched">
+              "CS Reponsavel" é obrigatório.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Tutor</mat-label>
+            <input matInput formControlName="tutor" required>
+            <mat-error *ngIf="alunoForm.get('tutor')?.invalid && alunoForm.get('tutor')?.touched">
+              "Tutor" é obrigatório.
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-    <!-- Nome do Arquivo Selecionado e Botão de Remover -->
-    <div *ngIf="selectedFile" class="file-info">
-      <span>{{ selectedFile.name }}</span>
-      <button mat-icon-button color="warn" (click)="limparArquivo(fileInput)">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-  
-    <!-- Botões -->
-    <div class="upload-button-container">
-      <button mat-raised-button color="primary" (click)="uploadFile()" [disabled]="!selectedFile">
-        Enviar Planilha
-      </button>
-      <button mat-raised-button color="primary" (click)="downloadFileModel()">
-        Baixar Modelo
-      </button>
-    </div>
-  
-    <!-- Mensagens de Sucesso e Erro -->
-    <p *ngIf="uploadSuccess" class="upload-success">Arquivo enviado com sucesso!</p>
-    <p *ngIf="uploadError" class="upload-error">{{ uploadError }}</p>
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+            {{ loading ? 'Salvando...' : 'Incluir' }}
+          </button>
+          <button mat-button color="warn" type="button" (click)="onClear()">
+            Limpar
+          </button>
+          <button mat-button color="warn" type="button" (click)="onCancel()">
+            Voltar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
   </mat-card>
      
 </app-menu>

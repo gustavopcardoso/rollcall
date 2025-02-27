@@ -1,16 +1,11 @@
-  .aulas-container {
-    margin: 20px;
-    padding: 20px;
-  }
+.mat-column-link {
+  flex: 0 0 10%;
+}
 
-  .mat-column-link {
-    flex: 0 0 10%;
-  }
+.mat-column-data {
+  flex: 0 0 15%;
+}
 
-  .mat-column-data {
-    flex: 0 0 15%;
-  }
-
-  .mat-column-editar {
-    flex: 0 0 10%;
-  }
+.mat-column-editar {
+  flex: 0 0 10%;
+}

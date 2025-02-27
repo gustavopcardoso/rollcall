@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Aula } from '../interfaces/aula';
 import { catchError, Observable, throwError } from 'rxjs';
 
@@ -22,12 +22,23 @@ export class AulaService {
     );
   }
 
-  getAulas(): Observable<Aula[]> {
-    return this.http.get<Aula[]>(this.apiUrl + '/list');
+  getAula(id: number): Observable<Aula> {
+    let params = new HttpParams();
+
+    if (id) params = params.set('id', id.toString());
+
+    return this.http.get<Aula>(`${this.apiUrl}/list`, { params });
   }
 
-  getAula(id: number): Observable<Aula> {
-    return this.http.get<Aula>(this.apiUrl + '/' + id);
+  getAulas(filterValues: any): Observable<Aula[]> {
+    let params = new HttpParams();
+
+    if (filterValues.titulo) params = params.set('titulo', filterValues.titulo);
+    if (filterValues.tutor) params = params.set('tutor', filterValues.tutor);
+    if (filterValues.dataHoraInicio) params = params.set('dataHoraInicio', filterValues.dataHoraInicio);
+    if (filterValues.dataHoraFim) params = params.set('dataHoraFim', filterValues.dataHoraFim);
+
+    return this.http.get<Aula[]>(`${this.apiUrl}/list`, { params });
   }
 
   saveAula(aula: Aula): Observable<Aula> {

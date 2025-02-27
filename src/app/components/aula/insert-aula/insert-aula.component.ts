@@ -13,6 +13,9 @@ import { AulaService } from '../../../services/aula.service';
 import { MenuComponent } from "../../menu/menu.component";
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-insert-aula',
@@ -30,7 +33,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ReactiveFormsModule,
     MenuComponent,
     MatTimepickerModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatIconModule
 ],
   templateUrl: './insert-aula.component.html',
   styleUrl: './insert-aula.component.css'
@@ -44,7 +48,9 @@ export class InsertAulaComponent {
   constructor(
     private fb: FormBuilder,
     private aulaService: AulaService,
-    private snackBar: MatSnackBar
+    private clipboard: Clipboard, 
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.aulaForm = this.fb.group({
       titulo: ['', Validators.required],
@@ -69,9 +75,14 @@ export class InsertAulaComponent {
         this.linkAula = res.linkAula;
         this.snackBar.open('Aula cadastrada com sucesso!', 'Fechar', { duration: 3000 });
         this.aulaForm.reset();
+
+        // Workaround to clear form validation
+        Object.keys(this.aulaForm.controls).forEach(key => {
+          this.aulaForm.controls[key].setErrors(null)
+        });
       },
-      error: (err) => {
-        this.errorMessage = err.error?.message || 'Erro ao cadastrar aula';
+      error: () => {        
+        this.snackBar.open('Erro ao cadastrar aluno', 'Fechar', { duration: 3000 });
       },
       complete: () => {
         this.loading = false;
@@ -79,8 +90,17 @@ export class InsertAulaComponent {
     });
   }
 
-  clearForm() {
+  onClear() {
     this.aulaForm.reset();
     this.errorMessage = '';
+  }
+
+  onCancel() {
+    this.router.navigate(['/aula/list']);
+  }
+
+  copyLink(link: string) {
+    this.clipboard.copy(link);
+    this.snackBar.open('Link copiado!', 'Fechar', { duration: 3000 });
   }
 }

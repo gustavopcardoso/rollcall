@@ -1,57 +1,124 @@
+<div class="loading-overlay" *ngIf="this.loading">
+  <mat-progress-spinner mode="indeterminate" />
+</div>
 <app-menu>
-    <mat-card class="aulas-container">
-        <mat-card-title>Lista de Aulas</mat-card-title>   
-
-        <div class="table-container">
-            <mat-table [dataSource]="dataSource" matSort>
-
-            <ng-container matColumnDef="titulo">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Título </mat-header-cell>
-                <mat-cell *matCellDef="let aula"> {{ aula.titulo }} </mat-cell>
-            </ng-container>
-        
-            <ng-container matColumnDef="tutor">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Tutor </mat-header-cell>
-                <mat-cell *matCellDef="let aula"> {{ aula.tutor }} </mat-cell>
-            </ng-container>
-        
-            <ng-container matColumnDef="dataHora">
-                <mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-data"> Data/Hora </mat-header-cell>
-                <mat-cell *matCellDef="let aula" class="mat-column-data">
-                {{ aula.dataHora | date: 'dd/MM/yyyy HH:mm' }}
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="observacao">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Obs. </mat-header-cell>
-                <mat-cell *matCellDef="let aula"> {{ aula.observacao }} </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="acao">
-                <mat-header-cell *matHeaderCellDef class="mat-column-link"> Link Aula </mat-header-cell>
-                <mat-cell *matCellDef="let aula" class="mat-column-link">
-                  <button mat-icon-button color="primary" (click)="copyLink(aula.linkAula)">
-                    <mat-icon>link</mat-icon>
-                  </button>
-                </mat-cell>
-            </ng-container>
-
-            <!-- Botão Editar -->
-            <ng-container matColumnDef="editar">
-                <mat-header-cell *matHeaderCellDef class="mat-column-editar"> Editar </mat-header-cell>
-                <mat-cell *matCellDef="let aula" class="mat-column-editar">
-                <button mat-icon-button color="primary" (click)="editAula(aula)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                </mat-cell>
-            </ng-container> 
-        
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-            </mat-table>
+  <mat-card class="form-container">
+    <mat-card-content>
+      <div class="card-title">
+        <mat-card-title>Filtros</mat-card-title>
+      </div>
+      <form [formGroup]="aulaFilterForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Título</mat-label>
+            <input matInput formControlName="titulo">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Tutor</mat-label>
+            <input matInput formControlName="tutor">
+          </mat-form-field>
         </div>
-              
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-      </mat-card>
-      
+        <div class="row">
+          <div class="date-time-container">
+            <!-- Data/Hora Inicio -->
+            <mat-form-field appearance="fill">
+              <mat-label>Data Início</mat-label>
+              <input matInput [matDatepicker]="datepickerInicio" formControlName="dataInicio">
+              <mat-datepicker-toggle matIconSuffix [for]="datepickerInicio" />
+              <mat-datepicker #datepickerInicio />
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="time-picker">
+              <mat-label>Hora Início</mat-label>
+              <input matInput formControlName="dataHoraInicio" [matTimepicker]="timepickerInicio">
+              <mat-timepicker-toggle matSuffix [for]="timepickerInicio" />
+              <mat-timepicker #timepickerInicio />
+            </mat-form-field>
+          </div>
+
+          <div class="date-time-container">
+            <!-- Data/Hora Fim -->
+            <mat-form-field appearance="fill">
+              <mat-label>Data Fim</mat-label>
+              <input matInput [matDatepicker]="datepickerFim" formControlName="dataFim">
+              <mat-datepicker-toggle matIconSuffix [for]="datepickerFim" />
+              <mat-datepicker #datepickerFim />
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="time-picker">
+              <mat-label>Hora Fim</mat-label>
+              <input matInput formControlName="dataHoraFim" [matTimepicker]="timepickerFim">
+              <mat-timepicker-toggle matSuffix [for]="timepickerFim" />
+              <mat-timepicker #timepickerFim />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit">
+            Filtrar
+          </button>
+          <button mat-raised-button color="primary" type="button" (click)="newAula()">
+            Novo
+          </button>
+          <button mat-button color="warn" type="button" (click)="onClear()">
+            Limpar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="aulas-container" *ngIf="showResults">
+    <mat-card-title>Lista de Aulas</mat-card-title>
+
+    <div class="table-container">
+      <mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="titulo">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Título </mat-header-cell>
+          <mat-cell *matCellDef="let aula"> {{ aula.titulo }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="tutor">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Tutor </mat-header-cell>
+          <mat-cell *matCellDef="let aula"> {{ aula.tutor }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dataHora">
+          <mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-data"> Data/Hora </mat-header-cell>
+          <mat-cell *matCellDef="let aula" class="mat-column-data">
+            {{ aula.dataHora | date: 'dd/MM/yyyy HH:mm' }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="observacao">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Obs. </mat-header-cell>
+          <mat-cell *matCellDef="let aula"> {{ aula.observacao }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="acao">
+          <mat-header-cell *matHeaderCellDef class="mat-column-link"> Link Aula </mat-header-cell>
+          <mat-cell *matCellDef="let aula" class="mat-column-link">
+            <button mat-icon-button color="primary" (click)="copyLink(aula.linkAula)">
+              <mat-icon>link</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Botão Editar -->
+        <ng-container matColumnDef="editar">
+          <mat-header-cell *matHeaderCellDef class="mat-column-editar"> Editar </mat-header-cell>
+          <mat-cell *matCellDef="let aula" class="mat-column-editar">
+            <button mat-icon-button color="primary" (click)="editAula(aula)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card>
+
 </app-menu>

@@ -1,11 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MenuComponent } from '../../menu/menu.component';
-import { FileUploadService } from '../../../services/file-upload.service';
-import { MatCard, MatCardTitle } from '@angular/material/card';
-import { MatIcon } from '@angular/material/icon';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { Router } from '@angular/router';
+import { AlunoService } from '../../../services/aluno.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-insert-aluno',
@@ -14,47 +20,65 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MenuComponent,
     MatCard,
     MatCardTitle,
-    MatIcon,
+    MatCardContent,
+    MatInputModule,
     CommonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatSnackBarModule
   ],
   templateUrl: './insert-aluno.component.html',
   styleUrls: ['./insert-aluno.component.css']
 })
 export class InsertAlunoComponent {
-  selectedFile!: File | null;
-  uploadSuccess = false;
-  uploadError = '';
+  alunoForm: FormGroup;
   loading = false;
 
-  constructor(private fileUploadService: FileUploadService, private snackBar: MatSnackBar) {}
-
-  onFileChange(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    if (!inputElement.files?.length) 
-      return;
-
-    this.selectedFile = inputElement.files[0];
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private alunoService: AlunoService,
+    private snackBar: MatSnackBar
+  ) {
+    this.alunoForm = this.initializeForm();
   }
 
-  uploadFile() {
-    if (!this.selectedFile) {
-      console.error('Nenhum arquivo selecionado!');
+  initializeForm() : FormGroup {
+    return this.alunoForm = this.fb.group({
+      nome: ['', Validators.required],
+      email: ['', Validators.required, Validators.email],
+      empresa: ['', Validators.required],
+      codigo: [''],
+      produto: ['', Validators.required],
+      finalContrato: ['', Validators.required],
+      csResponsavel: ['', Validators.required],
+      tutor: ['', Validators.required],
+    });
+  }
+
+  onSubmit() {
+    if (this.alunoForm.invalid) {
       return;
     }
 
     this.loading = true;
-    this.uploadSuccess = false;
-    this.uploadError = '';
 
-    this.fileUploadService.uploadFile(this.selectedFile).subscribe({
-      next: () => {        
-        this.uploadSuccess = true;
-        this.snackBar.open('Arquivo enviado com sucesso!', 'Fechar', { duration: 3000 });
-        this.selectedFile = null;        ;
+    this.alunoService.insertAluno(this.alunoForm.value).subscribe({
+      next: () => {  
+        this.snackBar.open('Aluno cadastrado com sucesso!', 'Fechar', { duration: 3000 });        
+        this.alunoForm.reset();
+
+        // Workaround to clear form validation
+        Object.keys(this.alunoForm.controls).forEach(key => {
+          this.alunoForm.controls[key].setErrors(null)
+        });
       },
-      error: (err) => {        
-        this.uploadError = err.error?.message || 'Erro ao enviar arquivo';
+      error: () => {
+        this.snackBar.open('Erro ao cadastrar aluno', 'Fechar', { duration: 3000 });
       },
       complete: () => {
         this.loading = false;
@@ -62,17 +86,11 @@ export class InsertAlunoComponent {
     });
   }
 
-  limparArquivo(fileInput?: HTMLInputElement) {
-    this.selectedFile = null;
-    this.uploadError = '';
-    this.uploadSuccess = false;
-
-    if (fileInput) {
-      fileInput.value = '';
-    }
+  onClear() {
+    this.alunoForm.reset();
   }
 
-  async downloadFileModel() {
-    await this.fileUploadService.downloadFileModel();
+  onCancel() {
+    this.router.navigate(['/aluno/list']);
   }
 }

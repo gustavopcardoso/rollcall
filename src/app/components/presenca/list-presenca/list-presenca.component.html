@@ -1,63 +1,98 @@
 <div class="loading-overlay" *ngIf="this.loading">
-    <mat-progress-spinner mode="indeterminate" />
+  <mat-progress-spinner mode="indeterminate" />
 </div>
 <app-menu>
-    <div class="container">      
-        <div *ngFor="let aula of aulas">            
-            <mat-card class="aula-card">
-              <mat-card-title>
-                <h4>Aula - {{ aula.titulo }} - {{ aula.dataHora | date:'dd/MM/yyyy HH:mm' }} - Tutor: {{ aula.tutor }}</h4>
-              </mat-card-title>                      
-              
-              <div *ngIf="aula.alunosRegistrados.data.length > 0; else semAlunosRegistrados">
-                <h4>Alunos Registrados</h4>
-                <table mat-table [dataSource]="aula.alunosRegistrados" class="mat-elevation-z8">
-                  <ng-container matColumnDef="nome">
-                    <th mat-header-cell *matHeaderCellDef> Nome </th>
-                    <td mat-cell *matCellDef="let aluno"> {{ aluno.nomeAluno }} </td>
-                  </ng-container>
-        
-                  <ng-container matColumnDef="email">
-                    <th mat-header-cell *matHeaderCellDef> Email </th>
-                    <td mat-cell *matCellDef="let aluno"> {{ aluno.email }} </td>
-                  </ng-container>
-        
-                  <ng-container matColumnDef="empresa">
-                    <th mat-header-cell *matHeaderCellDef> Empresa </th>
-                    <td mat-cell *matCellDef="let aluno"> {{ aluno.empresa }} </td>
-                  </ng-container>
-        
-                  <ng-container matColumnDef="confirmadoEm">
-                    <th mat-header-cell *matHeaderCellDef> Confirmado Em </th>
-                    <td mat-cell *matCellDef="let aluno"> {{ aluno.confirmadoEm | date:'dd/MM/yyyy HH:mm' }} </td>
-                  </ng-container>
-        
-                  <tr mat-header-row *matHeaderRowDef="['nome', 'email', 'empresa', 'confirmadoEm']"></tr>
-                  <tr mat-row *matRowDef="let row; columns: ['nome', 'email', 'empresa', 'confirmadoEm']"></tr>
-                </table>
-              </div>
-              <ng-template #semAlunosRegistrados><h4>Sem alunos registrados</h4></ng-template>
-                      
-              <div *ngIf="aula.alunosNaoRegistrados.data.length > 0; else semAlunosNaoRegistrados">
-                <h4>Alunos Não Registrados</h4>
-                <table mat-table [dataSource]="aula.alunosNaoRegistrados" class="mat-elevation-z8">
-                  <ng-container matColumnDef="email">
-                    <th mat-header-cell *matHeaderCellDef> Email </th>
-                    <td mat-cell *matCellDef="let aluno"> {{ aluno.email }} </td>
-                  </ng-container>
-        
-                  <ng-container matColumnDef="confirmadoEm">
-                    <th mat-header-cell *matHeaderCellDef> Confirmado Em </th>
-                    <td mat-cell *matCellDef="let aluno"> {{ aluno.confirmadoEm | date:'dd/MM/yyyy HH:mm' }} </td>
-                  </ng-container>
-        
-                  <tr mat-header-row *matHeaderRowDef="['email', 'confirmadoEm']"></tr>
-                  <tr mat-row *matRowDef="let row; columns: ['email', 'confirmadoEm']"></tr>
-                </table>
-              </div>
-              <ng-template #semAlunosNaoRegistrados><h4>Sem alunos não registrados</h4></ng-template>
-            </mat-card>
+  <mat-card class="form-container">
+    <mat-card-content>
+      <mat-card-title>Filtros</mat-card-title>
+      <form [formGroup]="presencaFilterForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+          <mat-label>Aula</mat-label><input matInput formControlName="tituloAula">
+        </mat-form-field>
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Produto</mat-label><input matInput formControlName="produto">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Tutor</mat-label><input matInput formControlName="tutor">
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <div class="date-time-container">
+            <mat-form-field appearance="fill">
+              <mat-label>Data Início</mat-label>
+              <input matInput [matDatepicker]="datepickerInicio" formControlName="dataInicio">
+              <mat-datepicker-toggle matIconSuffix [for]="datepickerInicio" />
+              <mat-datepicker #datepickerInicio />
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="time-picker">
+              <mat-label>Hora Início</mat-label>
+              <input matInput formControlName="horaInicio" [matTimepicker]="timepickerInicio">
+              <mat-timepicker-toggle matSuffix [for]="timepickerInicio" />
+              <mat-timepicker #timepickerInicio />
+            </mat-form-field>
           </div>
-      </div>
-      
+          <div class="date-time-container">
+            <mat-form-field appearance="fill">
+              <mat-label>Data Fim</mat-label>
+              <input matInput [matDatepicker]="datepickerFim" formControlName="dataFim">
+              <mat-datepicker-toggle matIconSuffix [for]="datepickerFim" />
+              <mat-datepicker #datepickerFim />
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="time-picker">
+              <mat-label>Hora Fim</mat-label>
+              <input matInput formControlName="horaFim" [matTimepicker]="timepickerFim">
+              <mat-timepicker-toggle matSuffix [for]="timepickerFim" />
+              <mat-timepicker #timepickerFim />
+            </mat-form-field>
+          </div>
+        </div>        
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit">
+            Filtrar
+          </button>
+          <button mat-button color="warn" type="button" (click)="onClear()">
+            Limpar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="container" *ngIf="aulas.length > 0">    
+    <button mat-raised-button color="primary" (click)="exportAsXLSX()">
+      <mat-icon>file_download</mat-icon>
+      Exportar para Excel
+    </button>   
+    <div *ngFor="let aula of aulas">
+      <mat-card class="aula-card">
+        <mat-card-content>
+          <mat-card-title>
+            <h4>{{ aula.produto }} - {{ aula.titulo }} - {{ aula.dataHora | date:'dd/MM/yyyy HH:mm' }} - Tutor: {{ aula.tutor }}</h4>
+          </mat-card-title>
+        </mat-card-content>
+        <table mat-table [dataSource]="aula.alunos">
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let aluno"> {{ aluno.email }} </td>
+          </ng-container>
+          <ng-container matColumnDef="confirmadoEm">
+            <th mat-header-cell *matHeaderCellDef> Confirmado Em </th>
+            <td mat-cell *matCellDef="let aluno"> {{ aluno.confirmadoEm | date:'dd/MM/yyyy HH:mm' }} </td>
+          </ng-container>
+          <ng-container matColumnDef="nome">
+            <th mat-header-cell *matHeaderCellDef> Nome </th>
+            <td mat-cell *matCellDef="let aluno"> {{ aluno.nomeAluno }} </td>
+          </ng-container>
+          <ng-container matColumnDef="empresa">
+            <th mat-header-cell *matHeaderCellDef> Empresa </th>
+            <td mat-cell *matCellDef="let aluno"> {{ aluno.empresa }} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </mat-card>
+    </div>
+  </div>
+
 </app-menu>

@@ -4,6 +4,8 @@ export interface Aluno {
     email: string;
     empresa: string;
     finalContrato: string;
+    csResponsavel: string;
+    tutor: string;
     produto: string;
     ativo: boolean;
 }

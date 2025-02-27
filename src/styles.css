@@ -31,6 +31,10 @@ mat-table {
   width: 100%;
 }
 
+.card-title {  
+  margin-bottom: 15px;
+}
+
 mat-header-cell {
   font-weight: bold;
 }
@@ -43,11 +47,14 @@ mat-header-cell, mat-cell {
   padding: 10px;
 } 
 
-.form-container {    
+.card-container {
   margin-top: 20px;
   margin-left: 20px;
-  margin-right: auto;
-  padding: 20px;
+}
+
+.form-container {      
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .loading-container {
@@ -58,20 +65,13 @@ mat-header-cell, mat-cell {
   min-height: 100px;
 }
 
-.popup-container {
-  text-align: center;
-  padding: 20px;
-}
-
 mat-form-field {
   width: 100%;
-  margin-bottom: 15px;
 }
 
 .button-container {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  gap: 16px;
 }
 
 .date-time-container {
@@ -82,7 +82,7 @@ mat-form-field {
 }
 
 .date-picker, .time-picker {
-  width: 48%;
+  width: 60%;
 }
 
 @media (max-width: 500px) {
@@ -93,4 +93,13 @@ mat-form-field {
   .date-picker, .time-picker {
     width: 100%;
   }
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+.row mat-form-field {
+  flex: 1;
 }

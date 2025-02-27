@@ -1,70 +1,76 @@
 <div class="loading-overlay" *ngIf="this.loading">
-    <mat-progress-spinner mode="indeterminate" />
+  <mat-progress-spinner mode="indeterminate" />
 </div>
 <app-menu>
-    <mat-card class="form-container">
+  <mat-card class="form-container">
+    <mat-card-content>
+      <div class="card-title">
         <mat-card-title>Editar Aluno</mat-card-title>
-  
-        <form [formGroup]="alunoForm" (ngSubmit)="onSubmit()">
-            <mat-form-field appearance="fill">
-                <mat-label>Nome</mat-label>
-                <input matInput formControlName="nome" required>
-                <mat-error *ngIf="alunoForm.get('nome')?.invalid && alunoForm.get('nome')?.touched">
-                    "Nome" é obrigatório.
-                </mat-error>
-            </mat-form-field>
-                
-            <mat-form-field appearance="fill">
-                <mat-label>Email</mat-label>
-                <input matInput formControlName="email" required>
-                <mat-error *ngIf="alunoForm.get('email')?.invalid && alunoForm.get('email')?.touched">
-                    "Email" é obrigatório.
-                </mat-error>
-            </mat-form-field>
+      </div>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Empresa</mat-label>
-                <input matInput formControlName="empresa" required>
-                <mat-error *ngIf="alunoForm.get('empresa')?.invalid && alunoForm.get('empresa')?.touched">
-                    "Empresa" é obrigatório.
-                </mat-error>
-            </mat-form-field>
+      <form [formGroup]="alunoForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="nome" required>
+          <mat-error *ngIf="alunoForm.get('nome')?.invalid && alunoForm.get('nome')?.touched">
+            "Nome" é obrigatório.
+          </mat-error>
+        </mat-form-field>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Final Contrato</mat-label>
-                <input matInput [matDatepicker]="datepicker" formControlName="finalContrato" required>
-                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-                <mat-datepicker #datepicker></mat-datepicker>
-                <mat-error *ngIf="alunoForm.get('empresa')?.invalid && alunoForm.get('empresa')?.touched">
-                    "Final Contrato" é obrigatório.
-                </mat-error>
-            </mat-form-field>
-            
-            <mat-form-field appearance="fill">
-                <mat-label>Produto</mat-label>
-                <input matInput formControlName="produto" required>
-                <mat-error *ngIf="alunoForm.get('produto')?.invalid && alunoForm.get('produto')?.touched">
-                    "Produto" é obrigatório.
-                </mat-error>
-            </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required>
+          <mat-error *ngIf="alunoForm.get('email')?.invalid && alunoForm.get('email')?.touched">
+            "Email" é obrigatório.
+          </mat-error>
+        </mat-form-field>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Status</mat-label>
-                <mat-select formControlName="ativo" required>
-                  <mat-option [value]="true">Ativo</mat-option>
-                  <mat-option [value]="false">Inativo</mat-option>
-                </mat-select>
-            </mat-form-field>
-                
-            <div class="button-container">
-                <button mat-raised-button color="primary" type="submit" [disabled]="loading">
-                    {{ loading ? 'Salvando...' : 'Salvar' }}
-                </button>
-                <button mat-button color="warn" type="button" (click)="onCancel()">
-                    Cancelar
-                </button>
-            </div>
-            
-        </form>
-    </mat-card>
+        <mat-form-field appearance="fill">
+          <mat-label>Empresa</mat-label>
+          <input matInput formControlName="empresa" required>
+          <mat-error *ngIf="alunoForm.get('empresa')?.invalid && alunoForm.get('empresa')?.touched">
+            "Empresa" é obrigatório.
+          </mat-error>
+        </mat-form-field>
+
+        <div class="date-time-container">
+          <mat-form-field appearance="fill">
+            <mat-label>Final Contrato</mat-label>
+            <input matInput [matDatepicker]="datepicker" formControlName="finalContrato" required>
+            <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker></mat-datepicker>
+            <mat-error *ngIf="alunoForm.get('empresa')?.invalid && alunoForm.get('empresa')?.touched">
+              "Final Contrato" é obrigatório.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Produto</mat-label>
+          <input matInput formControlName="produto" required>
+          <mat-error *ngIf="alunoForm.get('produto')?.invalid && alunoForm.get('produto')?.touched">
+            "Produto" é obrigatório.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="ativo" required>
+            <mat-option [value]="true">Ativo</mat-option>
+            <mat-option [value]="false">Inativo</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+            {{ loading ? 'Salvando...' : 'Salvar' }}
+          </button>
+          <button mat-button color="warn" type="button" (click)="onCancel()">
+            Voltar
+          </button>
+        </div>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
 </app-menu>

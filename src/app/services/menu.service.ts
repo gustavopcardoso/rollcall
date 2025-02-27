@@ -17,10 +17,9 @@ export class MenuService {
     const userMenu: MenuItem[] = [
       { id: 1, idMenuPai: null, label: 'Alunos', icon: 'face', route: '' },
       { id: 2, idMenuPai: 1, label: 'Gerenciar Alunos', icon: 'list', route: '/aluno/list' },
-      { id: 3, idMenuPai: 1, label: 'Importar Alunos', icon: 'open_in_new', route: '/aluno/insert' },
+      { id: 3, idMenuPai: 1, label: 'Importar Alunos', icon: 'open_in_new', route: '/aluno/import' },
       { id: 4, idMenuPai: null, label: 'Aulas', icon: 'assignment', route: '' },
-      { id: 5, idMenuPai: 4, label: 'Aulas Criadas', icon: 'list', route: '/aula/list' },
-      { id: 6, idMenuPai: 4, label: 'Nova Aula', icon: 'open_in_new', route: '/aula/insert' },
+      { id: 5, idMenuPai: 4, label: 'Gerenciar Aulas', icon: 'list', route: '/aula/list' },
       { id: 7, idMenuPai: null, label: 'Relatorios', icon: 'assessment', route: '' },
       { id: 8, idMenuPai: 7, label: 'Presenças', icon: 'supervised_user_circle', route: '/presenca/list' },
     ];

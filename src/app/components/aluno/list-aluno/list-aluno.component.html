@@ -1,63 +1,127 @@
+<div class="loading-overlay" *ngIf="this.loading">
+  <mat-progress-spinner mode="indeterminate" />
+</div>
 <app-menu>
-    <mat-card class="alunos-container">
-        <mat-card-title>Lista de Alunos</mat-card-title>        
-        
-        <mat-table [dataSource]="dataSource" matSort>
-          
-          <!-- Nome -->
-          <ng-container matColumnDef="nome">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-            <mat-cell *matCellDef="let aluno"> {{ aluno.nome }} </mat-cell>
-          </ng-container>
+  <mat-card class="form-container">
+    <mat-card-content>
+      <div class="card-title">
+        <mat-card-title>Filtros</mat-card-title>
+      </div>
+      <form [formGroup]="alunoFilterForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Nome</mat-label><input matInput formControlName="nome">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label><input matInput formControlName="email">
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Empresa</mat-label><input matInput formControlName="empresa">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Produto</mat-label><input matInput formControlName="produto">
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <div class="date-time-container">
+            <!-- Data/Hora Inicio -->
+            <mat-form-field appearance="fill">
+              <mat-label>Final Contrato Início</mat-label>
+              <input matInput [matDatepicker]="datepickerInicio" formControlName="finalContratoInicio">
+              <mat-datepicker-toggle matIconSuffix [for]="datepickerInicio" />
+              <mat-datepicker #datepickerInicio />
+            </mat-form-field>
+          </div>
+          <div class="date-time-container">
+            <!-- Data/Hora Fim -->
+            <mat-form-field appearance="fill">
+              <mat-label>Final Contrato Fim</mat-label>
+              <input matInput [matDatepicker]="datepickerFim" formControlName="finalContratoFim">
+              <mat-datepicker-toggle matIconSuffix [for]="datepickerFim" />
+              <mat-datepicker #datepickerFim />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit">
+            Filtrar
+          </button>
+          <button mat-raised-button color="primary" type="button" (click)="newAluno()">
+            Novo
+          </button>
+          <button mat-button color="warn" type="button" (click)="onClear()">
+            Limpar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
 
-          <!-- Email -->
-          <ng-container matColumnDef="email">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
-            <mat-cell *matCellDef="let aluno"> {{ aluno.email }} </mat-cell>
-          </ng-container>
+  <mat-card class="alunos-container" *ngIf="showResults">
+    <div class="card-title">
+      <mat-card-title>Lista de Alunos</mat-card-title>
+    </div>
 
-          <!-- Empresa -->
-          <ng-container matColumnDef="empresa">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Empresa </mat-header-cell>
-            <mat-cell *matCellDef="let aluno"> {{ aluno.empresa }} </mat-cell>
-          </ng-container>
+    <mat-table [dataSource]="dataSource" matSort>
 
-          <!-- Final Contrato -->
-          <ng-container matColumnDef="finalContrato">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Final Contrato </mat-header-cell>
-            <mat-cell *matCellDef="let aluno"> {{ aluno.finalContrato | date: 'dd/MM/yyyy' }} </mat-cell>
-          </ng-container>
+      <!-- Nome -->
+      <ng-container matColumnDef="nome">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+        <mat-cell *matCellDef="let aluno"> {{ aluno.nome }} </mat-cell>
+      </ng-container>
 
-          <!-- Produto -->
-          <ng-container matColumnDef="produto">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
-            <mat-cell *matCellDef="let aluno"> {{ aluno.produto }} </mat-cell>
-          </ng-container>
-      
-          <!-- Ativo -->
-          <ng-container matColumnDef="ativo">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Ativo </mat-header-cell>
-            <mat-cell *matCellDef="let aluno"> 
-              {{ aluno.ativo ? 'Sim' : 'Não' }} 
-            </mat-cell>
-          </ng-container>
-      
-          <!-- Botão Editar -->
-          <ng-container matColumnDef="editar">
-            <mat-header-cell *matHeaderCellDef class="mat-column-editar"> Editar </mat-header-cell>
-            <mat-cell *matCellDef="let aluno" class="mat-column-editar">
-              <button mat-icon-button color="primary" (click)="editAluno(aluno)">
-                <mat-icon>edit</mat-icon>
-              </button>
-            </mat-cell>
-          </ng-container>      
-      
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-      
-        <!-- Paginação -->
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-      </mat-card>
-      
+      <!-- Email -->
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+        <mat-cell *matCellDef="let aluno"> {{ aluno.email }} </mat-cell>
+      </ng-container>
+
+      <!-- Empresa -->
+      <ng-container matColumnDef="empresa">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Empresa </mat-header-cell>
+        <mat-cell *matCellDef="let aluno"> {{ aluno.empresa }} </mat-cell>
+      </ng-container>
+
+      <!-- Final Contrato -->
+      <ng-container matColumnDef="finalContrato">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Final Contrato </mat-header-cell>
+        <mat-cell *matCellDef="let aluno"> {{ aluno.finalContrato | date: 'dd/MM/yyyy' }} </mat-cell>
+      </ng-container>
+
+      <!-- Produto -->
+      <ng-container matColumnDef="produto">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
+        <mat-cell *matCellDef="let aluno"> {{ aluno.produto }} </mat-cell>
+      </ng-container>
+
+      <!-- Ativo -->
+      <ng-container matColumnDef="ativo">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Ativo </mat-header-cell>
+        <mat-cell *matCellDef="let aluno">
+          {{ aluno.ativo ? 'Sim' : 'Não' }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Botão Editar -->
+      <ng-container matColumnDef="editar">
+        <mat-header-cell *matHeaderCellDef class="mat-column-editar"> Editar </mat-header-cell>
+        <mat-cell *matCellDef="let aluno" class="mat-column-editar">
+          <button mat-icon-button color="primary" (click)="editAluno(aluno)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <!-- Paginação -->
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+    </mat-paginator>
+  </mat-card>
+
+
 </app-menu>
