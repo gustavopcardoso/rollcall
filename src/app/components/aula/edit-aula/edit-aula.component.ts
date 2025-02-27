@@ -52,6 +52,7 @@ export class EditAulaComponent implements OnInit {
         data: ['', Validators.required],
         dataHora: ['', Validators.required],
         tutor: ['', Validators.required],
+        produto: ['', Validators.required],
         observacao: ['']
     });
   }

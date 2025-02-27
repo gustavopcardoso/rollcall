@@ -35,6 +35,7 @@ export class AulaService {
 
     if (filterValues.titulo) params = params.set('titulo', filterValues.titulo);
     if (filterValues.tutor) params = params.set('tutor', filterValues.tutor);
+    if (filterValues.produto) params = params.set('produto', filterValues.produto);
     if (filterValues.dataHoraInicio) params = params.set('dataHoraInicio', filterValues.dataHoraInicio);
     if (filterValues.dataHoraFim) params = params.set('dataHoraFim', filterValues.dataHoraFim);
 

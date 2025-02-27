@@ -82,6 +82,7 @@ export class ListAulaComponent {
     return this.fb.group({
       titulo: [''],
       tutor: [''],
+      produto: [''],
       dataInicio: [''],
       dataHoraInicio: [''],
       dataFim: [''],
@@ -93,6 +94,7 @@ export class ListAulaComponent {
     return [
       'titulo',
       'tutor',
+      'produto',
       'dataHora',
       'observacao',
       'acao',
@@ -107,6 +109,7 @@ export class ListAulaComponent {
     const filterValues = {
       titulo: formValue.titulo,
       tutor: formValue.tutor,
+      produto: formValue.produto,
       dataHoraInicio: dataInicio ? getDateWithoutTimeZone(dataInicio) : null,
       dataHoraFim: dataFim ? getDateWithoutTimeZone(dataFim) : null
     };

@@ -17,6 +17,10 @@
             <mat-label>Tutor</mat-label>
             <input matInput formControlName="tutor">
           </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Produto</mat-label>
+            <input matInput formControlName="produto">
+          </mat-form-field>
         </div>
         <div class="row">
           <div class="date-time-container">
@@ -72,29 +76,28 @@
 
     <div class="table-container">
       <mat-table [dataSource]="dataSource" matSort>
-
         <ng-container matColumnDef="titulo">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Título </mat-header-cell>
           <mat-cell *matCellDef="let aula"> {{ aula.titulo }} </mat-cell>
         </ng-container>
-
         <ng-container matColumnDef="tutor">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Tutor </mat-header-cell>
           <mat-cell *matCellDef="let aula"> {{ aula.tutor }} </mat-cell>
         </ng-container>
-
+        <ng-container matColumnDef="produto">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
+          <mat-cell *matCellDef="let aula"> {{ aula.produto }} </mat-cell>
+        </ng-container>
         <ng-container matColumnDef="dataHora">
           <mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-data"> Data/Hora </mat-header-cell>
           <mat-cell *matCellDef="let aula" class="mat-column-data">
             {{ aula.dataHora | date: 'dd/MM/yyyy HH:mm' }}
           </mat-cell>
         </ng-container>
-
         <ng-container matColumnDef="observacao">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Obs. </mat-header-cell>
           <mat-cell *matCellDef="let aula"> {{ aula.observacao }} </mat-cell>
         </ng-container>
-
         <ng-container matColumnDef="acao">
           <mat-header-cell *matHeaderCellDef class="mat-column-link"> Link Aula </mat-header-cell>
           <mat-cell *matCellDef="let aula" class="mat-column-link">
@@ -102,9 +105,7 @@
               <mat-icon>link</mat-icon>
             </button>
           </mat-cell>
-        </ng-container>
-
-        <!-- Botão Editar -->
+        </ng-container>        
         <ng-container matColumnDef="editar">
           <mat-header-cell *matHeaderCellDef class="mat-column-editar"> Editar </mat-header-cell>
           <mat-cell *matCellDef="let aula" class="mat-column-editar">
@@ -113,7 +114,6 @@
             </button>
           </mat-cell>
         </ng-container>
-
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
