@@ -27,7 +27,7 @@ export class AulaService {
 
     if (id) params = params.set('id', id.toString());
 
-    return this.http.get<Aula>(`${this.apiUrl}/list`, { params });
+    return this.http.get<Aula>(this.apiUrl + '/' + id);
   }
 
   getAulas(filterValues: any): Observable<Aula[]> {
