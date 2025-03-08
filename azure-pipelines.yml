@@ -1,0 +1,86 @@
+trigger:
+  branches:
+    include:
+      - master
+
+pr: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  NODE_VERSION: '22.x'
+  APP_NAME: 'data-check'
+  RESOURCE_GROUP: 'datacx'
+  AZURE_SUBSCRIPTION: 'AzureServiceConnection'
+
+stages:
+  - stage: Build
+    displayName: "Build Node.js App"
+    jobs:
+      - job: Build
+        displayName: "Building the Application"
+        steps:
+          - checkout: self
+
+          - task: UseNode@1
+            displayName: "Set up Node.js $(NODE_VERSION)"
+            inputs:
+              version: $(NODE_VERSION)
+
+          - script: |
+              npm install
+              npm run build --if-present
+            displayName: "Install dependencies and build"
+
+          - script: zip -r release.zip ./*
+            displayName: "Zip artifact for deployment"
+
+          - task: PublishBuildArtifacts@1
+            displayName: "Upload artifact for deployment job"
+            inputs:
+              pathToPublish: 'release.zip'
+              artifactName: 'node-app'
+
+  - stage: Deploy
+    displayName: "Deploy to Azure Web App"
+    dependsOn: Build
+    jobs:
+      - job: Deploy
+        displayName: "Deploying to Azure"
+        steps:
+          - task: DownloadBuildArtifacts@0
+            displayName: "Download build artifact"
+            inputs:
+              artifactName: 'node-app'
+              downloadPath: '$(Build.ArtifactStagingDirectory)'
+
+          - script: unzip $(Build.ArtifactStagingDirectory)/release.zip -d $(Build.ArtifactStagingDirectory)
+            displayName: "Unzip artifact for deployment"
+
+          - task: AzureCLI@2
+            displayName: "Login to Azure"
+            inputs:
+              azureSubscription: $(AZURE_SUBSCRIPTION)
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az account show
+
+          - task: AzureCLI@2
+            displayName: "Restart App Service"
+            inputs:
+              azureSubscription: $(AZURE_SUBSCRIPTION)
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az webapp restart --name $(APP_NAME) --resource-group $(RESOURCE_GROUP)
+
+          - task: AzureWebApp@1
+            displayName: "Deploy to Azure Web App"
+            inputs:
+              appType: webApp
+              azureSubscription: $(AZURE_SUBSCRIPTION)
+              appName: $(APP_NAME)
+              package: "$(Build.ArtifactStagingDirectory)"
+              deploymentMethod: 'auto'
