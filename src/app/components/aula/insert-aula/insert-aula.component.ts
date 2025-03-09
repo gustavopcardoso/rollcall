@@ -16,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { combineDateAndTime, getDateWithoutTimeZone } from '../../../helpers/date.helper';
 
 @Component({
   selector: 'app-insert-aula',
@@ -58,7 +59,8 @@ export class InsertAulaComponent {
       data: ['', Validators.required],
       dataHora: ['', Validators.required],
       tutor: ['', Validators.required],
-      observacao: ['']
+      produto: ['', Validators.required],
+      observacao: [null]
     });
   }
 
@@ -69,6 +71,12 @@ export class InsertAulaComponent {
 
     this.loading = true;
     this.errorMessage = '';
+    
+    const formValue = this.aulaForm.value;
+    const dataHora = combineDateAndTime(formValue.data, formValue.dataHora);
+    if (dataHora) {
+      this.aulaForm.value.dataHora = getDateWithoutTimeZone(dataHora);
+    }
 
     this.aulaService.insertAula(this.aulaForm.value).subscribe({
       next: (res) => {
@@ -82,7 +90,8 @@ export class InsertAulaComponent {
         });
       },
       error: () => {        
-        this.snackBar.open('Erro ao cadastrar aluno', 'Fechar', { duration: 3000 });
+        this.snackBar.open('Erro ao cadastrar aula', 'Fechar', { duration: 3000 });
+        this.loading = false;
       },
       complete: () => {
         this.loading = false;

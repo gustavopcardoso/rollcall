@@ -48,11 +48,14 @@ export class EditAlunoComponent implements OnInit {
       this.alunoForm = this.fb.group({
         id: [],
         nome: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
+        email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
         empresa: ['', Validators.required],
-        finalContrato: ['', Validators.required],
+        codigo: [null],
+        finalContrato: [null],
         produto: ['', Validators.required],
-        ativo: ['']
+        csResponsavel: ['', Validators.required],
+        tutor: ['', Validators.required],
+        ativo: ['', Validators.required]
     });
   }
 
@@ -80,7 +83,8 @@ export class EditAlunoComponent implements OnInit {
         this.snackBar.open('Aluno alterado com sucesso!', 'Fechar', { duration: 3000 });
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Erro ao alterar aluno';
+        this.snackBar.open(err.error?.message ?? 'Erro ao cadastrar aluno', 'Fechar', { duration: 3000 });
+        this.loading = false;
       },
       complete: () => {
         this.loading = false;

@@ -106,6 +106,11 @@ export class ListAulaComponent {
     const dataInicio = combineDateAndTime(formValue.dataInicio, formValue.dataHoraInicio, true);
     const dataFim = combineDateAndTime(formValue.dataFim, formValue.dataHoraFim);
 
+    if (dataInicio && dataFim && dataInicio > dataFim) {
+      this.snackBar.open('Data de início não pode ser maior que a data final', 'Fechar', { duration: 3000 });
+      return;
+    }
+
     const filterValues = {
       titulo: formValue.titulo,
       tutor: formValue.tutor,
@@ -124,8 +129,9 @@ export class ListAulaComponent {
         this.dataSource.data = aulas;
         this.showResults = true;
       },
-      error: (err) => {
-        console.error(err);
+      error: () => {
+        this.snackBar.open('Erro ao listar aulas', 'Fechar', { duration: 3000 });
+        this.loading = false;
       },
       complete: () => {
         this.loading = false;

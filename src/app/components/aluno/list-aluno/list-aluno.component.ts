@@ -18,6 +18,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { combineDateAndTime, getDateWithoutTimeZone } from '../../../helpers/date.helper';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-aluno',
@@ -39,7 +40,8 @@ import { combineDateAndTime, getDateWithoutTimeZone } from '../../../helpers/dat
     MatDatepickerModule,
     MatButtonModule,
     MatPaginatorModule,
-    MatCardModule
+    MatCardModule,
+    MatSnackBarModule,
   ],
   templateUrl: './list-aluno.component.html',
   styleUrl: './list-aluno.component.css'
@@ -57,7 +59,8 @@ export class ListAlunoComponent implements AfterViewInit {
   constructor(
     private fb: FormBuilder,    
     private alunoService: AlunoService, 
-    private router: Router) 
+    private router: Router,
+    private snackBar: MatSnackBar) 
   {
     this.alunoFilterForm = this.initializeForm();
     this.displayedColumns = this.initializeColumns();
@@ -72,17 +75,18 @@ export class ListAlunoComponent implements AfterViewInit {
     this.loading = true;
     this.alunoService.getAlunos(filterValues).subscribe({
       next: (alunos) => {
-        this.dataSource.data = alunos;
-        this.dataSource.paginator = this.paginator;
+        this.dataSource.data = alunos;        
         this.showResults = true;
       },
       error: () => {
         this.showResults = false;
+        this.loading = false;
       },
       complete: () => {
         this.loading = false;
+        
       }
-    });
+    });    
   }
 
   editAluno(aluno: Aluno) {
@@ -98,13 +102,19 @@ export class ListAlunoComponent implements AfterViewInit {
     const dataFinalContratoInicio = combineDateAndTime(formValue.finalContratoInicio, null, true);
     const dataFinalContratoFim = combineDateAndTime(formValue.finalContratoFim, null, false);
 
+    if (dataFinalContratoInicio && dataFinalContratoFim && dataFinalContratoInicio > dataFinalContratoFim) {
+      this.snackBar.open('Data de início não pode ser maior que a data final', 'Fechar', { duration: 3000 });
+      return;
+    }
+
     const filterValues = {
       nome: formValue.nome,
       email: formValue.email,
       empresa: formValue.empresa,
       produto: formValue.produto,
       finalContratoInicio: dataFinalContratoInicio ? getDateWithoutTimeZone(dataFinalContratoInicio) : null,
-      finalContratoFim: dataFinalContratoFim ? getDateWithoutTimeZone(dataFinalContratoFim) : null
+      finalContratoFim: dataFinalContratoFim ? getDateWithoutTimeZone(dataFinalContratoFim) : null,
+      ativo: formValue.ativo
     };
     this.getAlunos(filterValues);
   }
@@ -116,7 +126,8 @@ export class ListAlunoComponent implements AfterViewInit {
       empresa: [''],
       produto: [''],
       finalContratoInicio: [''],
-      finalContratoFim: ['']
+      finalContratoFim: [''],
+      ativo: ['']
     });
   }
 
@@ -127,6 +138,7 @@ export class ListAlunoComponent implements AfterViewInit {
       'empresa',
       'finalContrato',
       'produto',
+      'tutor',
       'ativo', 
       'editar'];
   }

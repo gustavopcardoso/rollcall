@@ -11,8 +11,8 @@ export class PresencaService {
 
   constructor(private http: HttpClient) {}
 
-  confirmarPresenca(emailAluno: string, codigoAula: string): Observable<any> {
-    return this.http.post<any>(this.apiUrl + '/insert', { emailAluno, codigoAula });
+  confirmarPresenca(emailRegistrado: string, codigoAula: string): Observable<any> {
+    return this.http.post<any>(this.apiUrl + '/insert', { emailRegistrado, codigoAula });
   }
 
   listPresenca(filterValues: any): Observable<any> {

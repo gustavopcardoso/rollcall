@@ -21,7 +21,7 @@ export class AlunoService {
     if (filterValues.produto) params = params.set('produto', filterValues.produto);
     if (filterValues.finalContratoInicio) params = params.set('finalContratoInicio', filterValues.finalContratoInicio);
     if (filterValues.finalContratoFim) params = params.set('finalContratoFim', filterValues.finalContratoFim);    
-    if (filterValues.ativo) params = params.set('ativo', filterValues.ativo);
+    if (filterValues.ativo != undefined) params = params.set('ativo', filterValues.ativo);    
     
     return this.http.get<Aluno[]>(this.apiUrl + '/list', { params });
   }

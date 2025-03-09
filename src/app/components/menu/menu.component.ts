@@ -11,6 +11,7 @@ import { MenuItem } from '../../interfaces/menu-item';
 import { NavigationEnd, Router } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion'; 
 import { filter } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -22,7 +23,8 @@ import { filter } from 'rxjs';
     MatListModule,
     MatButtonModule,
     MatIconModule,
-    MatExpansionModule
+    MatExpansionModule,
+    RouterModule
   ],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
@@ -49,8 +51,8 @@ export class MenuComponent implements OnInit {
       this.updateExpandedPanels();
     });
 
-    if (typeof window !== 'undefined' && sessionStorage) {
-      this.tenantName = sessionStorage.getItem('tenantName') || '';
+    if (typeof window !== 'undefined' && localStorage) {
+      this.tenantName = localStorage.getItem('tenantName') || '';
     }
   }
 

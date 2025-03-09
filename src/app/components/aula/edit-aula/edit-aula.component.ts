@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AulaService } from '../../../services/aula.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTimepickerModule } from '@angular/material/timepicker';
+import { combineDateAndTime, getDateWithoutTimeZone } from '../../../helpers/date.helper';
 
 @Component({
   selector: 'app-edit-aula',
@@ -53,7 +54,7 @@ export class EditAulaComponent implements OnInit {
         dataHora: ['', Validators.required],
         tutor: ['', Validators.required],
         produto: ['', Validators.required],
-        observacao: ['']
+        observacao: [null]
     });
   }
 
@@ -63,13 +64,13 @@ export class EditAulaComponent implements OnInit {
       this.aulaService.getAula(Number(aulaId)).subscribe({
         next: (dados) => {
           this.aulaForm.patchValue(dados)
-            const dataHora = new Date(dados.dataHora);
-            this.aulaForm.patchValue({
-              data: dataHora.toISOString().split('T')[0]
-            });
+          const dataHora = new Date(dados.dataHora);
+          this.aulaForm.patchValue({
+            data: dataHora
+          });          
         },
-        // Exibir mensagem de erro estilo a utilizada no login
-        error: () => console.error('Erro ao carregar os dados da aula.')
+        
+        error: () => this.snackBar.open('Erro ao carregar os dados da aula.', 'Fechar', { duration: 3000 })
       });
     }
   }
@@ -82,12 +83,19 @@ export class EditAulaComponent implements OnInit {
     this.loading = true;
     this.errorMessage = '';
 
+    const formValue = this.aulaForm.value;
+    const dataHora = combineDateAndTime(formValue.data, new Date(formValue.dataHora));
+    if (dataHora) {
+      this.aulaForm.value.dataHora = getDateWithoutTimeZone(dataHora);
+    }
+
     this.aulaService.saveAula(this.aulaForm.value).subscribe({
       next: () => {
         this.snackBar.open('Aula alterada com sucesso!', 'Fechar', { duration: 3000 });
       },
-      error: (err) => {
-        this.errorMessage = err.error?.message || 'Erro ao alterar aula';
+      error: () => {        
+        this.snackBar.open('Erro ao alterar aula', 'Fechar', { duration: 3000 });
+        this.loading = false;
       },
       complete: () => {
         this.loading = false;

@@ -47,7 +47,7 @@ export class ImportAlunoComponent {
 
   uploadFile() {
     if (!this.selectedFile) {
-      console.error('Nenhum arquivo selecionado!');
+      this.snackBar.open('Nenhum arquivo selecionado', 'Fechar', { duration: 3000 });
       return;
     }
 
@@ -61,8 +61,9 @@ export class ImportAlunoComponent {
         this.snackBar.open('Arquivo enviado com sucesso!', 'Fechar', { duration: 3000 });
         this.selectedFile = null;        ;
       },
-      error: (err) => {        
-        this.uploadError = err.error?.message || 'Erro ao enviar arquivo';
+      error: () => {
+        this.snackBar.open('Erro ao enviar arquivo', 'Fechar', { duration: 3000 });
+        this.loading = false;
       },
       complete: () => {
         this.loading = false;

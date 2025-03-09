@@ -25,10 +25,13 @@
           </mat-expansion-panel-header>
 
           <mat-list>
-            <mat-list-item *ngFor="let child of item.children" (click)="navigateTo(child.route)">
+            <a mat-list-item *ngFor="let child of item.children" 
+              [routerLink]="child.route"
+              [routerLinkActive]="['active']"
+              [attr.href]="child.route">
               <mat-icon>{{ child.icon }}</mat-icon>
               <span>{{ child.label }}</span>
-            </mat-list-item>
+            </a>
           </mat-list>
         </mat-expansion-panel>
       </ng-container>

@@ -18,9 +18,9 @@
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Email</mat-label>
-            <input matInput formControlName="email" required>
+            <input matInput type="email" formControlName="email" required>
             <mat-error *ngIf="alunoForm.get('email')?.invalid && alunoForm.get('email')?.touched">
-              "Email" é obrigatório.
+              Email inválido.
             </mat-error>
           </mat-form-field>
         </div>
@@ -39,12 +39,9 @@
           <div class="date-time-container">
             <mat-form-field appearance="fill">
               <mat-label>Final Contrato</mat-label>
-              <input matInput [matDatepicker]="datepicker" formControlName="finalContrato" required>
+              <input matInput [matDatepicker]="datepicker" formControlName="finalContrato">
               <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-              <mat-datepicker #datepicker></mat-datepicker>
-              <mat-error *ngIf="alunoForm.get('empresa')?.invalid && alunoForm.get('empresa')?.touched">
-                "Final Contrato" é obrigatório.
-              </mat-error>
+              <mat-datepicker #datepicker></mat-datepicker>              
             </mat-form-field>
           </div>
         </div>

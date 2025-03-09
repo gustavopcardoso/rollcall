@@ -28,14 +28,14 @@ export class AuthService {
   }
 
   logout() {
-    if (typeof window !== 'undefined' && sessionStorage) {
-      sessionStorage.removeItem('authToken');
+    if (typeof window !== 'undefined' && localStorage) {
+      localStorage.removeItem('authToken');
     }
   }
 
   getToken(): string | null {
-    if (typeof window !== 'undefined' && sessionStorage) {
-      return sessionStorage.getItem('authToken');
+    if (typeof window !== 'undefined' && localStorage) {
+      return localStorage.getItem('authToken');
     }
     else {
       return null;

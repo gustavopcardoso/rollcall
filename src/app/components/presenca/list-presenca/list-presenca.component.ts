@@ -16,6 +16,7 @@ import { combineDateAndTime, getDateWithoutTimeZone } from '../../../helpers/dat
 import { MatIconModule } from '@angular/material/icon';
 import * as ExcelJS from 'exceljs';
 import FileSaver from 'file-saver';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-presenca',
@@ -46,6 +47,7 @@ export class ListPresencaComponent {
 
   constructor(
     private presencaService: PresencaService,
+    private snackBar: MatSnackBar,
     private fb: FormBuilder
   ) {
     this.presencaFilterForm = this.initializeForm();
@@ -56,6 +58,11 @@ export class ListPresencaComponent {
     const formValue = this.presencaFilterForm.value;
     const dataInicio = combineDateAndTime(formValue.dataInicio, formValue.horaInicio, true);
     const dataFim = combineDateAndTime(formValue.dataFim, formValue.horaFim);
+
+    if (dataInicio && dataFim && dataInicio > dataFim) {
+      this.snackBar.open('Data de início não pode ser maior que a data final', 'Fechar', { duration: 3000 });
+      return;
+    }
 
     const filterValues = {
       titulo: formValue.tituloAula,
@@ -80,9 +87,9 @@ export class ListPresencaComponent {
           tutor: aula.tutor,
           alunos: new MatTableDataSource(
             aula.presencas.map((p: any) => ({
-              email: p.emailAluno,
+              email: p.emailRegistrado,
               confirmadoEm: p.confirmadoEm,
-              nomeAluno: p.nomeAluno ?? "Desconhecido",
+              nomeAluno: p.aluno?.nome ?? "Desconhecido",
               empresa: p.aluno?.empresa ?? "Desconhecido"
             }))
           )

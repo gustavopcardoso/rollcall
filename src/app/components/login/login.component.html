@@ -7,7 +7,6 @@
       
       <mat-card-content>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-          <!-- Campo de email -->
           <mat-form-field appearance="fill">
             <mat-label>Email</mat-label>
             <input matInput placeholder="Email" type="email" formControlName="email" required>
@@ -15,22 +14,16 @@
               Email inválido.
             </mat-error>
           </mat-form-field>
-  
-          <!-- Campo de senha -->
           <mat-form-field appearance="fill">
             <mat-label>Senha</mat-label>
             <input matInput placeholder="Senha" type="password" formControlName="password" required>            
           </mat-form-field>
-  
-          <!-- Botão de login -->
           <button type="submit" mat-raised-button color="primary" class="login-button" [disabled]="loginForm.invalid">
             Entrar
           </button>
- 
         </form>
       </mat-card-content>    
   
-      <!-- Mensagem de status do login -->
       <mat-card-actions>
         <p class="login-status" [ngClass]="{ 'success': loginSuccess, 'error': !loginSuccess }">
           {{ loginMessage }}

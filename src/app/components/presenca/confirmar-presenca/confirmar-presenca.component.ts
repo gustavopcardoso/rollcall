@@ -40,7 +40,7 @@ export class ConfirmarPresencaComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.presencaForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]]
     });
   }
 
@@ -62,6 +62,7 @@ export class ConfirmarPresencaComponent implements OnInit {
       },
       error: (err) => {
         this.snackBar.open('Erro ao confirmar presença.', 'Fechar', { duration: 3000 });
+        this.loading = false;
       },
       complete: () => {
         this.loading = false;

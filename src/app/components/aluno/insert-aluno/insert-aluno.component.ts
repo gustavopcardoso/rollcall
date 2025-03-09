@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuComponent } from '../../menu/menu.component';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
@@ -50,11 +50,11 @@ export class InsertAlunoComponent {
   initializeForm() : FormGroup {
     return this.alunoForm = this.fb.group({
       nome: ['', Validators.required],
-      email: ['', Validators.required, Validators.email],
+      email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       empresa: ['', Validators.required],
-      codigo: [''],
+      codigo: [null],
       produto: ['', Validators.required],
-      finalContrato: ['', Validators.required],
+      finalContrato: [null],
       csResponsavel: ['', Validators.required],
       tutor: ['', Validators.required],
     });
@@ -77,8 +77,9 @@ export class InsertAlunoComponent {
           this.alunoForm.controls[key].setErrors(null)
         });
       },
-      error: () => {
-        this.snackBar.open('Erro ao cadastrar aluno', 'Fechar', { duration: 3000 });
+      error: (err) => {
+        this.snackBar.open(err.error?.message ?? 'Erro ao cadastrar aluno', 'Fechar', { duration: 3000 });
+        this.loading = false;
       },
       complete: () => {
         this.loading = false;

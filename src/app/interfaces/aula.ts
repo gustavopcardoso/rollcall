@@ -5,6 +5,6 @@ export interface Aula {
     linkAula: string;
     dataHora: string;
     tutor: string;
-    abservacao?: string;
+    observacao?: string;
     dataHoraEnvio: string;        
   }

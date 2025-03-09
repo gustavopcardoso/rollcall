@@ -33,7 +33,7 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)])
   });
 
@@ -47,9 +47,9 @@ export class LoginComponent {
       ).subscribe({
         next: (response) => {
           this.loginSuccess = true;
-          if (typeof window !== 'undefined' && sessionStorage) {
-            sessionStorage.setItem('authToken', response.token);
-            sessionStorage.setItem('tenantName', response.tenant.nome);
+          if (typeof window !== 'undefined' && localStorage) {
+            localStorage.setItem('authToken', response.token);
+            localStorage.setItem('tenantName', response.tenant.nome);
           }
           this.router.navigate(['/dashboard']);
         },
